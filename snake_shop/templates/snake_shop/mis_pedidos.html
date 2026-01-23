@@ -1,0 +1,89 @@
+{% extends "snake_shop/base.html" %}
+{% load static %}
+
+{% block content %}
+<h1 class="section-title">Historial de Pedidos</h1>
+
+<div class="container mt-4">
+    {% if pedidos %}
+        <div class="orders-wrapper">
+            {% for pedido in pedidos %}
+                <div class="order-card-new {% if not pedido.pagado %}border-pending{% endif %}">
+                    <div class="order-header">
+                        <span class="order-number">Pedido #{{ pedido.id }}</span>
+                        <span class="order-date">{{ pedido.creado|date:"d/m/Y H:i" }}</span>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="order-main-info">
+                            <p class="order-total-price">Total: <strong>${{ pedido.get_total_cost }}</strong></p>
+                            
+                            {% if pedido.pagado %}
+                                <span class="badge badge-success">Pagado</span>
+                            {% else %}
+                                <span class="badge badge-danger-alert">Pendiente de Pago</span>
+                            {% endif %}
+                            
+                            <span class="status-badge status-{{ pedido.estado_despacho }}">
+                                {{ pedido.get_estado_despacho_display }}
+                            </span>
+                        </div>
+
+                        <div class="order-actions-row">
+                            <a href="{% url 'detalle_pedido' pedido.id %}" class="btn-view-details">
+                                Ver Detalles <i class="arrow-right">→</i>
+                            </a>
+                            
+                            {% if not pedido.pagado %}
+                                <form action="{% url 'eliminar_pedido' pedido.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete-order" onclick="return confirm('¿Estás seguro de que quieres eliminar este pedido?')">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-orders">
+            <p>Aún no tienes pedidos registrados.</p>
+            <a href="{% url 'lista_productos' %}" class="btn-shop-now">Ir a la tienda</a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .order-card-new {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        border-left: 5px solid #007bff;
+    }
+    .border-pending { border-left-color: #dc3545; }
+    .badge-danger-alert {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.85rem;
+    }
+    .btn-delete-order {
+        background: transparent;
+        color: #dc3545;
+        border: 1px solid #dc3545;
+        padding: 5px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-delete-order:hover { background: #dc3545; color: white; }
+    .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+    .order-number { font-weight: bold; font-size: 1.2rem; }
+</style>
+{% endblock %}

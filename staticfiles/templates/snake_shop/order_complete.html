@@ -1,0 +1,27 @@
+{% extends "snake_shop/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <div class="order-confirmation-box">
+        
+        <div class="confirmation-icon">
+            <img src="{% static 'success_icon.svg' %}" alt="Check de éxito">
+        </div>
+
+        <h1>¡Pedido Completado!</h1>
+        
+        <p class="greeting">Gracias por tu compra, **{{ pedido.usuario.username }}**.</p>
+        
+        <div class="order-details">
+            <p>Tu pedido ha sido registrado con éxito.</p>
+            <p class="order-id">ID de Pedido: **#{{ pedido.id }}**</p>
+        </div>
+        
+        <div class="order-actions">
+            <a href="{% url 'lista_productos' %}" class="btn checkout-button-final">Volver a la Tienda</a>
+            <a href="{% url 'mis_pedidos' %}" class="btn btn-secondary">Ver Mis Pedidos</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

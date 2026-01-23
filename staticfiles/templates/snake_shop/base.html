@@ -1,0 +1,107 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Shop</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body{% if request.path == '/checkout/' %} class="checkout-page"{% endif %}>
+    <header>
+        <div class="container header-content">
+            <div class="header-logo">
+                <h1>
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'imagenes/productos/2025/08/29/logo.jpg' %}" alt="Snake Shop" style="height:40px;">
+                        Snake Shop
+                    </a>
+                </h1>
+            </div>
+            <nav class="header-nav">
+    <ul class="d-flex align-items-center list-unstyled mb-0">
+        <li><a href="{% url 'home' %}"><i class="bi bi-house-door"></i> Inicio</a></li>
+        <li><a href="{% url 'lista_productos' %}">Tienda</a></li>
+
+        {% if user.is_authenticated %}
+            {% if user.is_staff or user.perfil.is_seller %}
+                <li class="dropdown mx-2">
+                    <a class="btn btn-warning btn-sm dropdown-toggle fw-bold text-dark px-3" href="#" role="button" id="sellerMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-gear-fill"></i> Administración Ventas
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="sellerMenu">
+                        <li><h6 class="dropdown-header">Inventario y Ventas</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'gestion_pedidos' %}"><i class="bi bi-cart-check"></i> Gestión de Pedidos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Atención al Cliente</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'gestion_tickets' %}"><i class="bi bi-headset"></i> Tickets de Soporte</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Análisis y Reportes</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'estadisticas_vendedor' %}"><i class="bi bi-graph-up-arrow"></i> Estadísticas de Ventas</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{% url 'mis_pedidos' %}">Mis Pedidos</a></li>
+                <li class="ms-2"><a href="{% url 'contacto_tecnico' %}"><i class="bi bi-headset"></i> Soporte Técnico</a></li>
+
+            {% endif %}
+
+            <li class="ms-3"><a href="{% url 'profile' %}" title="Mi Perfil"><i class="bi bi-person-circle fs-5">{{ user.username }}</i></a></li>
+            <li class="mx-2"><a href="{% url 'cart_detail' %}" class="position-relative cart-link">
+                <i class="bi bi-cart3 fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                    {{ cart|length }}
+                </span>
+            </a></li>
+            <li class="ms-3"><a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Salir</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Ingresar</a></li>
+        {% endif %}
+    </ul>
+</nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container mt-3">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="text-center py-4 mt-5 border-top">
+        <p>&copy; 2026 Snake Shop. Todos los derechos reservados.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="https://www.facebook.com" class="text-decoration-none text-blank" target="_blank"><i class="bi bi-facebook fs-4"></i></a>
+            <a href="https://www.instagram.com" class="text-decoration-none text-blank" target="_blank"><i class="bi bi-instagram fs-4"></i></a>
+            <a href="https://x.com" class="text-decoration-none text-blank" target="_blank"><i class="bi bi-twitter-x fs-4"></i></a>
+            <a href="https://www.youtube.com" class="text-decoration-none text-blank" target="_blank"><i class="bi bi-youtube fs-4"></i></a>
+            <a href="https://www.whatsapp.com" class="text-decoration-none text-blank" target="_blank"><i class="bi bi-whatsapp fs-4"></i></a>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

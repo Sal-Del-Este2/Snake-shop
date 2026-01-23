@@ -1,0 +1,69 @@
+{% extends "snake_shop/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="product-detail-container container">
+    <div class="product-card-detail">
+        <div class="product-image-column">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" class="product-detail-img" alt="{{ producto.nombre }}">
+            {% else %}
+                <div class="no-image-placeholder">No hay imagen disponible</div>
+            {% endif %}
+        </div>
+
+        <div class="product-info-column">
+            <h1 class="product-title">{{ producto.nombre }}</h1>
+            
+            <div class="price-stock-group">
+                {% if producto.en_promocion and producto.precio_promocion %}
+                <p class="price-display text-danger fs-3 fw-bold">${{ producto.precio_promocion }}
+                <span class="text-muted text-decoration-line-through fs-6">${{ producto.precio }}</span>
+                <span class="badge bg-success ms-2">Promoción</span></p>
+                {% else %}
+                    <p class="price-display">{{ producto.precio }}</p>
+                {% endif %}
+
+                <!-- <p class="price-display">${{ producto.precio }}</p> -->
+                <p class="stock-info">
+                    <strong>Stock:</strong> 
+                    {% if producto.stock > 0 %}
+                        <span class="stock-badge status-available">{{ producto.stock }} unidades</span>
+                    {% else %}
+                        <span class="stock-badge status-sold-out">Agotado</span>
+                    {% endif %}
+                </p>
+            </div>
+            <hr class="product-divider">
+            
+            <p class="description-title">Descripción:</p>
+            <div class="product-description-text">{{ producto.descripcion|linebreaks }}</div>
+
+            {% if producto.stock > 0 %}
+                <form action="{% url 'cart_add' producto.id %}" method="post" class="add-to-cart-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-field quantity-field">
+                        <label for="{{ cart_product_form.cantidad.id_for_label }}" class="form-label">Cantidad:</label>
+                        {{ cart_product_form.cantidad|add_class:"quantity-input profile-input" }}
+                    </div>
+                    
+                    <div class="d-none">
+                        {{ cart_product_form.override }}
+                    </div>
+                    
+                    <button type="submit" class="btn checkout-button-final add-button-full">
+                        Agregar al Carrito
+                    </button>
+                </form>
+            {% else %}
+                <button type="button" class="btn btn-danger w-100 mt-4" disabled>Producto Agotado</button>
+            {% endif %}
+
+            <div class="back-link-container">
+                <a href="{% url 'lista_productos' %}" class="btn btn-secondary">← Volver a la Tienda</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

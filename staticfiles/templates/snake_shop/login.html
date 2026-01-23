@@ -1,0 +1,63 @@
+{% extends "snake_shop/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 75vh;">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="max-width: 450px; width: 100%;">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <div class="bg-primary bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                    <i class="bi bi-person-lock fs-2"></i>
+                </div>
+                <h2 class="fw-bold">Iniciar Sesión</h2>
+                <p class="text-muted small">Accede a tu cuenta en Snake Shop</p>
+            </div>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small text-uppercase">{{ field.label }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted">
+                                {% if "usuario" in field.label|lower or "username" in field.name %}
+                                    <i class="bi bi-person"></i>
+                                {% elif "contraseña" in field.label|lower or "password" in field.name %}
+                                    <i class="bi bi-shield-lock"></i>
+                                {% else %}
+                                    <i class="bi bi-pencil-square"></i>
+                                {% endif %}
+                            </span>
+                            {{ field|add_class:"form-control bg-light border-start-0 ps-0" }}
+                        </div>
+                        
+                        {% if field.help_text %}
+                            <div class="form-text small">{{ field.help_text }}</div>
+                        {% endif %}
+                        
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in field.errors %}
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm rounded-pill">
+                        Entrar al Panel
+                    </button>
+                </div>
+
+                <div class="text-center mt-4 border-top pt-3">
+                    <p class="small text-muted mb-0">¿Eres nuevo aquí?</p>
+                    <a href="{% url 'register' %}" class="text-decoration-none fw-bold small">Crear una cuenta</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

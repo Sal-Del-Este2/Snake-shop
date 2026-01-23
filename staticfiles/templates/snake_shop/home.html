@@ -1,0 +1,66 @@
+{% extends "snake_shop/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="home-hero-section container mb-5">
+    <div class="hero-content">
+        <h1 class="hero-title">¡Bienvenido a Snake Shop!</h1>
+        <p class="hero-subtitle">
+            Snake Shop es tu tienda online de tecnología, donde encuentras computadores, notebooks y accesorios al mejor precio y con asesoría pensada en lo que realmente necesitas.
+        </p>
+        <a href="{% url 'lista_productos' %}" class="btn btn-primary hero-btn">
+            Ingresar a la Tienda
+        </a>
+    </div>
+
+    <div class="hero-image">
+        <img src="{% static 'imagenes/productos/2025/08/29/portada.2.jpg' %}" 
+             alt="Presentación de productos de tecnología">
+    </div>
+</div>
+
+<section class="about-us-section py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-4">Quiénes Somos</h2>
+                <p class="lead">Pasión por la tecnología y compromiso con tu productividad.</p>
+                <p>
+                    En <strong>Snake Shop</strong>, no solo vendemos hardware; construimos soluciones. Nacimos con la misión de democratizar el acceso a la tecnología de alto rendimiento en Chile, ofreciendo equipos seleccionados bajo estrictos estándares de calidad.
+                </p>
+                <p>
+                    Nos diferenciamos por acompañarte en todo el proceso: desde la elección del equipo ideal para tus estudios o trabajo, hasta el soporte técnico especializado si algo falla.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4">
+                    <div class="col-sm-6">
+                        <div class="card h-100 border-0 shadow-sm p-3 text-center">
+                            <i class="bi bi-shield-check fs-1 text-primary"></i>
+                            <h5 class="mt-3">Calidad Garantizada</h5>
+                            <p class="small text-muted">Cada equipo es testeado por expertos antes de llegar a tus manos.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card h-100 border-0 shadow-sm p-3 text-center">
+                            <i class="bi bi-tools fs-1 text-primary"></i>
+                            <h5 class="mt-3">Servicio Técnico</h5>
+                            <p class="small text-muted">Especialistas en mantenimiento y reparación multimarca.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-12 w-100">
+                            <div class="card h-100 border-0 shadow-sm p-3 text-center">
+                                <i class="bi bi-chat-heart fs-1 text-primary"></i>
+                                <h5 class="mt-3">Asesoría Humana</h5>
+                                <p class="small text-muted">No eres un número de pedido; te asesoramos según tu presupuesto real.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

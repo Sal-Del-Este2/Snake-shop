@@ -1,0 +1,57 @@
+{% extends "snake_shop/base.html" %}
+
+{% block content %}
+<div class="main-content container">
+    <h1 class="section-title">Detalle del Pedido #{{ pedido.id }}</h1>
+    
+    <div class="order-detail-layout">
+        
+        <div class="order-summary-box">
+            <h3 class="step-subtitle">Información General</h3>
+            <p><strong>Estado:</strong> <span class="status-badge status-{{ pedido.estado_despacho }}">{{ pedido.get_estado_despacho_display }}</span></p>
+            <p><strong>Fecha:</strong> {{ pedido.creado|date:"d F Y, H:i" }}</p>
+            <p><strong>Pagado:</strong> {% if pedido.pagado %}Sí{% else %}No{% endif %}</p>
+            
+            <h3 class="step-subtitle mt-4">Dirección de Envío</h3>
+            <div class="shipping-info-box">
+                <p>{{ pedido.direccion }}</p>
+                <p>{{ pedido.ciudad }}, {{ pedido.codigo_postal }}</p>
+            </div>
+            
+            <a href="{% url 'mis_pedidos' %}" class="btn btn-secondary mt-3">← Volver a Mis Pedidos</a>
+        </div>
+        
+        <div class="order-items-box">
+            <h3 class="step-subtitle">Productos del Pedido</h3>
+            
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th style="width: 55%;">Producto</th>
+                        <th style="width: 15%;">Cantidad</th>
+                        <th style="width: 15%;">Precio Unit.</th>
+                        <th style="width: 15%;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>${{ item.precio }}</td>
+                        <td>${{ item.get_cost|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                        <tr><td colspan="4">No hay productos en este pedido.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="total-summary-detail">
+                <p>Costo Total del Pedido: <span>${{ pedido.get_total_cost|floatformat:2 }}</span></p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
