@@ -4,28 +4,30 @@ Django settings for ecommerce_snake project.
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-$5qh&e-oa^dg^=l+9&g*=jh0mff5$iw$7-fruj-xuv0#^yv=#e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #True
+DEBUG = True #False #True
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
 ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1',] # '.ngrok-free.app', '.ngrok-free.dev'
 
 # USAR COMODINES (*) para que funcione con cualquier túnel de ngrok activo
 CSRF_TRUSTED_ORIGINS = [
-    'https://tu-app.onrender.com',
+    # 'https://tu-app.onrender.com',
     # 'https://*.ngrok-free.app',
     # 'https://*.ngrok-free.dev',
-    # 'http://127.0.0.1:8000',
-    # 'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
 ]
 
 # Application definition
@@ -112,10 +114,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'snake_shop', 'static',
-    # os.path.join(BASE_DIR, 'snake_shop', 'static'),
+    # BASE_DIR / 'snake_shop', 'static',
+    os.path.join(BASE_DIR, 'snake_shop', 'static'),
 ]
 
 MEDIA_URL = '/media/'

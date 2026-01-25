@@ -20,7 +20,7 @@
 
         <div class="col-md-9">
             <h1 style="text-align: center">{% if categoria %}{{ categoria.nombre }}{% else %}Nuestros Productos{% endif %}</h1>
-            <div id="carouselPromociones" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
+            <div id="carouselPromociones" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
                 <div class="carousel-indicators">
                     {% for promo in productos_promocion %}
                     <button type="button" data-bs-target="#carouselPromociones" data-bs-slide-to="{{ forloop.counter0 }}"
