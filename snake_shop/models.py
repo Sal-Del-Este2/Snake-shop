@@ -131,27 +131,34 @@ def crear_perfil_usuario(sender, instance, created, **kwargs):
 
 # Modelos para Pedidos y Carrito
 class Pedido(models.Model):
+
     ESTADO_CHOICES = (
         ('pendiente', 'Pendiente'),
         ('en_despacho', 'En Despacho'),
         ('completado', 'Completado'),
+        ('retiro', 'Retiro en tienda'),
     )
 
-    usuario = models.ForeignKey(User, related_name='pedidos', on_delete=models.CASCADE)
-    direccion = models.CharField(max_length=250)
+    usuario = models.ForeignKey(User, related_name='pedidos', on_delete=models.SET_NULL, null=True, blank=True) # User, related_name='pedidos', on_delete=models.CASCADE,
+    direccion = models.CharField(max_length=250, null=True, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    ciudad = models.CharField(max_length=100)
-    codigo_postal = models.CharField(max_length=20)
+    ciudad = models.CharField(max_length=100, null=True, blank=True)
+    codigo_postal = models.CharField(max_length=20, null=True, blank=True)
+    envio = models.IntegerField(default=0)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
     pagado = models.BooleanField(default=False)
-    estado_despacho = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
+    estado_despacho = models.CharField(max_length=20, choices=(
+            ('en_despacho', 'Despacho a domicilio'),
+            ('retiro', 'Retiro en tienda'),
+        ), default='en_despacho')
 
     # Campos profesionales de totales
-    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    envio = models.DecimalField(max_digits=10, decimal_places=2, default=3990.00)
+    costo_envio = models.IntegerField(default=0)
     descuento = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    # envio = models.DecimalField(max_digits=10, decimal_places=2, default=3990.00)
+    
     # Folio único para trazabilidad (US-16)
     folio = models.CharField(max_length=50, unique=True, editable=False)
     class Meta:

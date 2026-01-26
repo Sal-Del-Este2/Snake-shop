@@ -16,14 +16,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-$5qh&e-oa^dg^=l+9&g*=jh0mff5$iw$7-fruj-xuv0#^yv=#e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #False #True
+DEBUG = False #True
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
 ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1',] # '.ngrok-free.app', '.ngrok-free.dev'
 
 # USAR COMODINES (*) para que funcione con cualquier túnel de ngrok activo
 CSRF_TRUSTED_ORIGINS = [
-    # 'https://tu-app.onrender.com',
+    'https://tu-app.onrender.com',
     # 'https://*.ngrok-free.app',
     # 'https://*.ngrok-free.dev',
     'http://127.0.0.1:8000',
@@ -114,7 +114,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     # BASE_DIR / 'snake_shop', 'static',
     os.path.join(BASE_DIR, 'snake_shop', 'static'),

@@ -23,10 +23,13 @@
                 {% for item in cart %}
                 <tr>
                     <td>
-                        <div class="cart-item-product">
-                            <img src="{{ item.producto.imagen_url }}" alt="{{ item.producto.nombre }}"
-                                class="cart-product-thumbnail">
-                            <span>{{ item.producto.nombre }}</span>
+                        <div class="cart-item-product"></div>
+                            {% if item.producto.imagen %}
+                                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" width="60" class="cart-product-thumbnail">
+                                <span>{{ item.producto.nombre }}</span>
+                            {% else %}
+                                <span>Sin imagen</span>
+                            {% endif %}
                         </div>
                     </td>
                     <td>${{ item.precio }}</td>
@@ -52,14 +55,14 @@
 
         <div class="cart-actions">
             <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Continuar comprando</a>
-
+            <a href="{% url 'checkout' %}" class="btn btn-info btn-lg w-100">Continuar al pago como invitado</a>
+            <p class="text-center mt-2">¿Tienes cuenta?
             {% if request.user.is_authenticated %}
-            <a href="{% url 'checkout' %}" class="btn checkout-button-final">Finalizar Compra</a>
+                <a href="{% url 'checkout' %}" class="btn checkout-button-final">Finalizar Compra</a>
             {% else %}
-            <a href="{% url 'login' %}?next={% url 'checkout' %}" class="btn checkout-button-final">
-                Inicia sesión para pagar
-            </a>
+                <a href="{% url 'login' %}?next={% url 'checkout' %}" class="btn checkout-button-final">Inicia sesión para pagar</a>
             {% endif %}
+            <a href="{% url 'login' %}?next={% url 'checkout' %}">Registrate </a>para guardar tus datos y recibirr ofertas.</p>
         </div>
         {% endif %}
     </div>

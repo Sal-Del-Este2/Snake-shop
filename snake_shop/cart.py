@@ -61,19 +61,23 @@ class Cart:
 
         for item in cart.values():
             # Convertimos el string de vuelta a Decimal para los cálculos
-            precio = producto.precio_promocion if producto.en_promocion and producto.precio_promocion else producto.precio
+            precio = (
+                producto.precio_promocion
+                if producto.en_promocion and producto.precio_promocion
+                else producto.precio
+            )
             item['precio'] = precio
             item['total_precio'] = precio * item['cantidad']
-            yield item
+            # yield item
             # item['precio'] = Decimal(item['precio'])
             # item['total_precio'] = item['precio'] * item['cantidad']
-            # yield item
+            yield item
             
             # Precio promocional si aplica
             precio = producto.precio_promocion if producto.en_promocion and producto.precio_promocion else producto.precio
             item['precio'] = precio
             item['total_precio'] = precio * item['cantidad']
-            yield item
+            # yield item
 
     def __len__(self):
 
@@ -84,11 +88,21 @@ class Cart:
         total = Decimal('0')
         for item in self:
             # Usa precio_promocion si está en promoción
-            precio = item['producto'].precio_promocion if item['producto'].en_promocion and item['producto'].precio_promocion else item['producto'].precio
+            precio = (
+                item['producto'].precio_promocion
+                if item['producto'].en_promocion and item['producto'].precio_promocion
+                else item['producto'].precio
+            )
             total += precio * item['cantidad']
-            return total
+        return total
+            # precio = item['producto'].precio_promocion if item['producto'].en_promocion and item['producto'].precio_promocion else item['producto'].precio
+            # total += precio * item['cantidad']
+            # return total
         # Convertimos el string a Decimal para la suma total
         # return sum(Decimal(item['precio']) * item['cantidad'] for item in self.cart.values())
+    
+    def get_costo_envio(request):
+        return 3990 if request.session.get("tipo_envio") == "despacho" else 0
 
     def clear(self):
         # elimina el carrito de la sesión

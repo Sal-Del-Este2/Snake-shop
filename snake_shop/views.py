@@ -256,7 +256,7 @@ def cart_detail(request):
         item['update_cantidad_form'] = CartAddProductForm(initial={'cantidad': item['cantidad'], 'override': True})
     return render(request, 'snake_shop/cart_detail.html', {'cart': cart})
 
-@login_required
+# @login_required esto es para habilitar el usuario invitado
 def checkout(request):
     cart = Cart(request)
     if not cart: 
@@ -288,55 +288,87 @@ def obtener_totales_finales(request, cart):
     return subtotal, envio, descuento, total_final
 
 # INTEGRACIÓN DE PAGOS FLOW (RF-06, RF-07, RF-08)
-@login_required
+# @login_required, tambien debe ser para invitados
 @require_POST
 def crear_pedido(request):
     cart = Cart(request)
     if not cart:
         messages.error(request, 'Tu carrito está vacío.')
         return redirect('lista_productos')
-    
-    # 1. Validar que el perfil exista y tenga datos de envío
-    try:
-        perfil = request.user.perfil
-    except Perfil.DoesNotExist:
-        messages.warning(request, 'Debes completar tu perfil antes de comprar.')
-        return redirect('profile')
-    
-    if not perfil.direccion or not perfil.comuna:
-        messages.warning(request, 'Completa tus datos de envío en el perfil antes de pagar.')
-        return redirect('profile')
 
-    # 2. Validar Email para Flow (Failsafe)
-    if not request.user.email:
-        messages.error(request, "Tu cuenta no tiene un email válido para procesar el pago.")
-        return redirect('profile')
+    # 1. DATOS DEL COMPRADOR
+    if request.user.is_authenticated:
+        usuario = request.user
+        email = request.user.email
 
+        try:
+            perfil = request.user.perfil
+        except Perfil.DoesNotExist:
+            messages.warning(request, 'Debes completar tu perfil antes de comprar.')
+            return redirect('profile')
+
+        direccion = perfil.direccion
+        ciudad = perfil.ciudad
+        codigo_postal = getattr(perfil, "codigo_postal", None) #perfil.codigo_postal
+
+        if not email:
+            messages.error(request, 'Tu cuenta no tiene un email válido.')
+            return redirect('profile')
+
+    else:
+        # Comprar Como Invitado
+        # nombre = request.POST.get('nombre')
+        usuario = None
+        email = request.POST.get('email')
+        direccion = request.POST.get('direccion')
+        ciudad = request.POST.get('ciudad')
+        codigo_postal = request.POST.get('codigo_postal') or None
+
+        if not all([email, direccion, ciudad]):
+            messages.error(request, 'Debes completar los datos de envío.')
+            return redirect('cart_detail')
+
+    tipo_envio = request.POST.get('tipo_envio', 'despacho')
+    if tipo_envio == 'retiro':
+        costo_envio = 0
+        direccion = None
+        ciudad = None
+        codigo_postal = None
+    else:
+        costo_envio = 3990
+        direccion = request.POST.get('direccion')
+        ciudad = request.POST.get('ciudad')
+        codigo_postal = request.POST.get('codigo_postal') or None
+
+    # 2. CREACIÓN DEL PEDIDO
     try:
         with transaction.atomic():
-            # 1. LÓGICA DE CÁLCULO UNIFICADA
-            subtotal_productos = cart.get_total_precio()
-            costo_envio = 3990
-            monto_descuento = 0
-            
-            # 2. Descuento del 15% si es administrativo (staff)
-            if request.user.is_staff:
-                monto_descuento = int(subtotal_productos * 0.15)
-            
-            total_a_pagar = (subtotal_productos + costo_envio) - monto_descuento
+            subtotal = cart.get_total_precio()
+            # costo_envio = 3990
+            descuento = 0
 
-            # 3. Crear el Pedido con el TOTAL REAL
+            if usuario and usuario.is_staff:
+                descuento = int(subtotal * 0.15)
+
+            total = subtotal + costo_envio - descuento
+
             pedido = Pedido.objects.create(
-                usuario=request.user,
-                direccion=perfil.direccion,
-                ciudad=perfil.ciudad,
-                codigo_postal=perfil.codigo_postal,
-                total=total_a_pagar  # Guardamos el monto final con descuento y envío
+                usuario=usuario,
+                email=email,               # MUY IMPORTANTE PARA INVITADOS
+                direccion=direccion,
+                ciudad=ciudad,
+                codigo_postal=codigo_postal,
+                estado_despacho=tipo_envio,
+                costo_envio=costo_envio,
+                # subtotal=subtotal,
+                descuento=descuento,
+                total=total
             )
 
-            # 4. Validar Stock y crear Items
+            # 3. ITEMS + STOCK
             for item in cart:
                 producto = item['producto']
+
                 if producto.stock < item['cantidad']:
                     raise ValueError(f"Stock insuficiente para {producto.nombre}")
 
@@ -346,41 +378,128 @@ def crear_pedido(request):
                     precio=item['precio'],
                     cantidad=item['cantidad']
                 )
-                # Descontar stock
+
                 producto.stock -= item['cantidad']
                 producto.save()
 
-            # 5. Configurar Pasarela de Pago (Flow)
+            # 4. FLOW
             url_api = f"{settings.FLOW_URL_BASE}/payment/create"
-            
+
             params = {
                 "apiKey": settings.FLOW_API_KEY,
                 "commerceOrder": str(pedido.id),
                 "subject": f"Compra Snake Shop - Pedido #{pedido.id}",
                 "currency": "CLP",
-                "amount": int(total_a_pagar), # Monto exacto enviado a Flow
-                "email": request.user.email,
-                "urlReturn": request.build_absolute_uri(reverse('order_complete', args=[pedido.id])),
-                "urlConfirmation": request.build_absolute_uri(reverse('confirmacion_flow')),
+                "amount": int(total),
+                "email": email,
+                "urlReturn": request.build_absolute_uri(
+                    reverse('order_complete', args=[pedido.id])
+                ),
+                "urlConfirmation": request.build_absolute_uri(
+                    reverse('confirmacion_flow')
+                ),
             }
-            
-            # Firma y Petición
+
             params["s"] = generar_firma_flow(params)
             response = requests.post(url_api, data=params)
             data = response.json()
 
             if response.status_code == 200 and 'url' in data:
                 request.session['pedido_id'] = pedido.id
-                cart.clear() # Limpiamos el carrito solo si la redirección es exitosa
+                cart.clear()
                 return redirect(f"{data['url']}?token={data['token']}")
-            else:
-                error_flow = data.get('message', 'Error desconocido en Flow')
-                raise Exception(f"Flow API Error: {error_flow}")
+
+            raise Exception(data.get('message', 'Error desconocido en Flow'))
 
     except Exception as e:
-        # Si algo falla, el 'transaction.atomic' hace rollback (el stock no se descuenta)
         messages.error(request, f"Error al procesar el pago: {e}")
         return redirect('cart_detail')
+
+    # # 1. Validar que el perfil exista y tenga datos de envío
+    # try:
+    #     perfil = request.user.perfil
+    # except Perfil.DoesNotExist:
+    #     messages.warning(request, 'Debes completar tu perfil antes de comprar.')
+    #     return redirect('profile')
+    
+    # if not perfil.direccion or not perfil.comuna:
+    #     messages.warning(request, 'Completa tus datos de envío en el perfil antes de pagar.')
+    #     return redirect('profile')
+
+    # # 2. Validar Email para Flow (Failsafe)
+    # if not request.user.email:
+    #     messages.error(request, "Tu cuenta no tiene un email válido para procesar el pago.")
+    #     return redirect('profile')
+
+    # try:
+    #     with transaction.atomic():
+    #         # 1. LÓGICA DE CÁLCULO UNIFICADA
+    #         subtotal_productos = cart.get_total_precio()
+    #         costo_envio = 3990
+    #         monto_descuento = 0
+            
+    #         # 2. Descuento del 15% si es administrativo (staff)
+    #         if request.user.is_staff:
+    #             monto_descuento = int(subtotal_productos * 0.15)
+            
+    #         total_a_pagar = (subtotal_productos + costo_envio) - monto_descuento
+
+    #         # 3. Crear el Pedido con el TOTAL REAL
+    #         pedido = Pedido.objects.create(
+    #             usuario=request.user,
+    #             direccion=perfil.direccion,
+    #             ciudad=perfil.ciudad,
+    #             codigo_postal=perfil.codigo_postal,
+    #             total=total_a_pagar  # Guardamos el monto final con descuento y envío
+    #         )
+
+    #         # 4. Validar Stock y crear Items
+    #         for item in cart:
+    #             producto = item['producto']
+    #             if producto.stock < item['cantidad']:
+    #                 raise ValueError(f"Stock insuficiente para {producto.nombre}")
+
+    #             ItemPedido.objects.create(
+    #                 pedido=pedido,
+    #                 producto=producto,
+    #                 precio=item['precio'],
+    #                 cantidad=item['cantidad']
+    #             )
+    #             # Descontar stock
+    #             producto.stock -= item['cantidad']
+    #             producto.save()
+
+    #         # 5. Configurar Pasarela de Pago (Flow)
+    #         url_api = f"{settings.FLOW_URL_BASE}/payment/create"
+            
+    #         params = {
+    #             "apiKey": settings.FLOW_API_KEY,
+    #             "commerceOrder": str(pedido.id),
+    #             "subject": f"Compra Snake Shop - Pedido #{pedido.id}",
+    #             "currency": "CLP",
+    #             "amount": int(total_a_pagar), # Monto exacto enviado a Flow
+    #             "email": request.user.email,
+    #             "urlReturn": request.build_absolute_uri(reverse('order_complete', args=[pedido.id])),
+    #             "urlConfirmation": request.build_absolute_uri(reverse('confirmacion_flow')),
+    #         }
+            
+    #         # Firma y Petición
+    #         params["s"] = generar_firma_flow(params)
+    #         response = requests.post(url_api, data=params)
+    #         data = response.json()
+
+    #         if response.status_code == 200 and 'url' in data:
+    #             request.session['pedido_id'] = pedido.id
+    #             cart.clear() # Limpiamos el carrito solo si la redirección es exitosa
+    #             return redirect(f"{data['url']}?token={data['token']}")
+    #         else:
+    #             error_flow = data.get('message', 'Error desconocido en Flow')
+    #             raise Exception(f"Flow API Error: {error_flow}")
+
+    # except Exception as e:
+    #     # Si algo falla, el 'transaction.atomic' hace rollback (el stock no se descuenta)
+    #     messages.error(request, f"Error al procesar el pago: {e}")
+    #     return redirect('cart_detail')
 
 @csrf_exempt
 @require_POST
@@ -573,3 +692,15 @@ def estadisticas_vendedor(request):
         'total_pedidos': total_pedidos,               # Ahora sí está definido
     }
     return render(request, 'snake_shop/estadisticas.html', context)
+
+@require_POST
+def seleccionar_envio(request):
+    tipo = request.POST.get("envio")  # "despacho" o "retiro"
+
+    if tipo not in ["despacho", "retiro"]:
+        return JsonResponse({"error": "Opción inválida"}, status=400)
+
+    request.session["tipo_envio"] = tipo
+    request.session.modified = True
+
+    return JsonResponse({"ok": True})
