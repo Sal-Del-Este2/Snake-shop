@@ -45,4 +45,5 @@ urlpatterns = [
 
     # URL de la página de inicio
     path('', views.home, name='home'),
+    path("seleccionar-envio/", views.seleccionar_envio, name="seleccionar_envio"),
 ]

@@ -491,6 +491,9 @@ input[type="submit"]:hover {
     flex-grow: 1;
     position: relative;
     padding-bottom: 20px;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    padding: 15px 10px 20px;
 }
 
 .step-indicator {
@@ -514,6 +517,7 @@ input[type="submit"]:hover {
 .step-title {
     font-size: 0.9rem;
     color: #999;
+    display: block;
 }
 
 .step.active .step-title {

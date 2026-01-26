@@ -19,6 +19,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.db.models.functions import TruncDate, TruncMonth
 from django.db.models import Sum, Count
+from django.http import JsonResponse
 
 # Modelos y Formularios del Proyecto
 from .models import Producto, Categoria, Perfil, Pedido, ItemPedido, Transaccion, TicketSoporte 
@@ -695,12 +696,12 @@ def estadisticas_vendedor(request):
 
 @require_POST
 def seleccionar_envio(request):
-    tipo = request.POST.get("envio")  # "despacho" o "retiro"
+    tipo_envio = request.POST.get("envio", "retiro")  # "despacho" o "retiro"
 
-    if tipo not in ["despacho", "retiro"]:
+    if tipo_envio not in ["despacho", "retiro"]:
         return JsonResponse({"error": "Opción inválida"}, status=400)
 
-    request.session["tipo_envio"] = tipo
+    request.session["tipo_envio"] = tipo_envio
     request.session.modified = True
 
     return JsonResponse({"ok": True})

@@ -2,211 +2,210 @@
 {% load static %}
 
 {% block content %}
+<div class="main-content container mt-4">
 
-    <div class="main-content container mt-4">
+    <!-- PASOS -->
+    <div class="checkout-steps mb-5">
+        <div class="step completed"><span class="step-indicator">1</span><span class="step-title">Dirección</span></div>
+        <div class="step active"><span class="step-indicator">2</span><span class="step-title">Revisión y Pago</span></div>
+        <div class="step"><span class="step-indicator">3</span><span class="step-title">Confirmación</span></div>
+    </div>
 
-        <!-- PASOS -->
-        <div class="checkout-steps mb-5">
-            <div class="step completed"><span class="step-indicator">1</span><span class="step-title">Dirección</span></div>
-            <div class="step active"><span class="step-indicator">2</span><span class="step-title">Revisión y Pago</span></div>
-            <div class="step"><span class="step-indicator">3</span><span class="step-title">Confirmación</span></div>
-        </div>
+    <div class="row g-4">
 
-        <div class="row g-4">
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="col-lg-7">
 
-            <!-- COLUMNA IZQUIERDA -->
-            <div class="col-lg-7">
+            <!-- ================= DATOS DE ENTREGA ================= -->
+            <h3 class="fw-bold mb-4">
+                <i class="bi bi-geo-alt text-primary"></i> 1. Datos de Entrega
+            </h3>
 
-                <!-- ================= DATOS DE ENTREGA ================= -->
-                <h3 class="fw-bold mb-4">
-                    <i class="bi bi-geo-alt text-primary"></i> 1. Datos de Entrega
-                </h3>
+            <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
 
-                <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
-
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.perfil and request.user.perfil.direccion %}
-                            <!-- USUARIO CON DIRECCIÓN -->
-                            <div class="current-address">
-                                <p><strong>Destinatario:</strong> {{ request.user.get_full_name|default:request.user.username }}</p>
-                                <p><strong>Dirección:</strong> {{ request.user.perfil.direccion }}</p>
-                                <p><strong>Comuna / Ciudad:</strong> {{ request.user.perfil.comuna }}, {{ request.user.perfil.ciudad }}</p>
-                                <p><strong>Email:</strong> {{ request.user.email }}</p>
-                            </div>
-                            <a href="{% url 'profile' %}" class="btn btn-sm btn-outline-secondary mt-3">
-                                Cambiar dirección
-                            </a>
-                        {% else %}
-                            <!-- USUARIO SIN DIRECCIÓN -->
-                            <div class="alert alert-warning">
-                                <i class="bi bi-exclamation-triangle"></i>
-                                No has registrado una dirección de envío.
-                                <a href="{% url 'profile' %}" class="btn btn-primary btn-sm ms-2">
-                                    Configurar ahora
-                                </a>
-                            </div>
-                        {% endif %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user.perfil and request.user.perfil.direccion %}
+                        <!-- USUARIO CON DIRECCIÓN -->
+                        <div class="current-address">
+                            <p><strong>Destinatario:</strong> {{ request.user.get_full_name|default:request.user.username }}</p>
+                            <p><strong>Dirección:</strong> {{ request.user.perfil.direccion }}</p>
+                            <p><strong>Comuna / Ciudad:</strong> {{ request.user.perfil.comuna }}, {{ request.user.perfil.ciudad }}</p>
+                            <p><strong>Email:</strong> {{ request.user.email }}</p>
+                        </div>
+                        <a href="{% url 'profile' %}" class="btn btn-sm btn-outline-secondary mt-3">
+                            Cambiar dirección
+                        </a>
                     {% else %}
-                        <!-- INVITADO -->
-                        <div class="alert alert-info mb-0">
-                            Completa tus datos más abajo para comprar como invitado.
+                        <!-- USUARIO SIN DIRECCIÓN -->
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            No has registrado una dirección de envío.
+                            <a href="{% url 'profile' %}" class="btn btn-primary btn-sm ms-2">
+                                Configurar ahora
+                            </a>
                         </div>
                     {% endif %}
-
-                </div>
-
-
-                <!-- ================= MÉTODO DE PAGO ================= -->
-                <h3 class="fw-bold mb-4">
-                    <i class="bi bi-credit-card text-primary"></i> 2. Método de Pago
-                </h3>
-
-                <div class="card border-0 shadow-sm p-4 text-center mb-4">
-                    <div class="mb-3">
-                        <img src="https://www.nuprimeaudio.cl/wp-content/uploads/2021/02/logo-flow-e1613539608937.jpg"
-                            alt="Flow" class="img-fluid" style="max-height: 50px;">
+                {% else %}
+                    <!-- INVITADO -->
+                    <div class="alert alert-info mb-0">
+                        Completa tus datos más abajo para comprar como invitado.
                     </div>
+                {% endif %}
 
-                    <div class="d-flex justify-content-center gap-3 mb-3">
-                        <i class="bi bi-credit-card-2-back fs-2 text-muted"></i>
-                        <i class="bi bi-credit-card-2-front fs-2 text-muted"></i>
-                        <i class="bi bi-bank fs-2 text-muted"></i>
-                    </div>
+            </div>
 
-                    <p class="text-muted small">
-                        Paga de forma segura con tarjetas de crédito, débito o transferencia a través de <strong>Flow</strong>.
-                    </p>
+
+            <!-- ================= MÉTODO DE PAGO ================= -->
+            <h3 class="fw-bold mb-4">
+                <i class="bi bi-credit-card text-primary"></i> 2. Método de Pago
+            </h3>
+
+            <div class="card border-0 shadow-sm p-4 text-center mb-4">
+                <div class="mb-3">
+                    <img src="https://www.nuprimeaudio.cl/wp-content/uploads/2021/02/logo-flow-e1613539608937.jpg"
+                         alt="Flow" class="img-fluid" style="max-height: 50px;">
                 </div>
 
-                <!-- ================= MÉTODO DE ENTREGA ================= -->
-                <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
-                    <h5 class="fw-bold mb-3">
-                        <i class="bi bi-truck"></i> Método de entrega
-                    </h5>
-
-                    <form id="envio-form">
-                        <label class="d-block mb-2">
-                            <input type="radio" name="envio" value="despacho"
-                                {% if request.session.tipo_envio == "despacho" %}checked{% endif %}>
-                            Despacho a domicilio ($3.990)
-                        </label>
-
-                        <label class="d-block">
-                            <input type="radio" name="envio" value="retiro"
-                                {% if request.session.tipo_envio == "retiro" %}checked{% endif %}>
-                            Retiro en tienda (Gratis)
-                        </label>
-                    </form>
+                <div class="d-flex justify-content-center gap-3 mb-3">
+                    <i class="bi bi-credit-card-2-back fs-2 text-muted"></i>
+                    <i class="bi bi-credit-card-2-front fs-2 text-muted"></i>
+                    <i class="bi bi-bank fs-2 text-muted"></i>
                 </div>
 
-                <!-- ================= FORMULARIO REAL ================= -->
-                <form method="post" action="{% url 'crear_pedido' %}">
-                    {% csrf_token %}
+                <p class="text-muted small">
+                    Paga de forma segura con tarjetas de crédito, débito o transferencia a través de <strong>Flow</strong>.
+                </p>
+            </div>
 
-                    {% if not request.user.is_authenticated %}
-                        <!-- DATOS INVITADO -->
-                        <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
-                            <h5 class="fw-bold mb-3">
-                                <i class="bi bi-person"></i> Datos del comprador
-                            </h5>
-                            <input type="text" name="nombre" class="form-control mb-3" placeholder="Nombre completo" required>
-                            <input type="email" name="email" class="form-control mb-3" placeholder="Correo electrónico" required>
-                            <input type="text" name="ciudad" class="form-control mb-3" placeholder="Ciudad / Comuna" required>
-                            <input type="text" name="direccion" class="form-control mb-3" placeholder="Dirección" required>
-                        </div>
-                    {% endif %}
+            <!-- ================= MÉTODO DE ENTREGA ================= -->
+            <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
+                <h5 class="fw-bold mb-3">
+                    <i class="bi bi-truck"></i> Método de entrega
+                </h5>
 
-                    <!-- <div id="direccion-box">
-                        <h4>Método de entrega</h4>
-                        <label>
-                        <input type="radio" name="tipo_envio" value="despacho" checked>
+                <form id="envio-form">
+                    <label class="d-block mb-2">
+                        <input type="radio" name="envio" value="despacho"
+                            {% if request.session.tipo_envio == "despacho" %}checked{% endif %}>
                         Despacho a domicilio ($3.990)
-                        </label><br>
-                        <label>
-                        <input type="radio" name="tipo_envio" value="retiro">
+                    </label>
+
+                    <label class="d-block">
+                        <input type="radio" name="envio" value="retiro"
+                            {% if request.session.tipo_envio == "retiro" %}checked{% endif %}>
                         Retiro en tienda (Gratis)
                     </label>
-                    </div> -->
-
-                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow">
-                        PAGAR AHORA ${{ total_final }}
-                    </button>
-
-                    {% if not request.user.is_authenticated %}
-                        <p class="text-center small mt-2">
-                            ¿Tienes cuenta?
-                            <a href="{% url 'login' %}?next={% url 'checkout' %}">
-                                Inicia sesión
-                            </a>
-                            para usar tus datos guardados.
-                        </p>
-                    {% endif %}
                 </form>
-
             </div>
 
-            <!-- ================= RESUMEN PEDIDO ================= -->
-            <div class="col-lg-5">
-                <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
-                    <div class="card-body p-4">
+            <!-- ================= FORMULARIO REAL ================= -->
+            <form method="post" action="{% url 'crear_pedido' %}">
+                {% csrf_token %}
 
-                        <h4 class="fw-bold mb-4">Resumen del Pedido</h4>
-
-                        <ul class="list-group list-group-flush mb-4">
-                            {% for item in cart %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                                <span class="small">{{ item.producto.nombre }} (x{{ item.cantidad }})</span>
-                                <span class="fw-bold">${{ item.total_precio }}</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-
-                        <div class="border-top pt-3">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Subtotal:</span>
-                                <span>${{ subtotal }}</span>
-                            </div>
-
-                            {% if descuento > 0 %}
-                            <div class="d-flex justify-content-between mb-2 text-success fw-bold">
-                                <span>Descuento:</span>
-                                <span>-${{ descuento }}</span>
-                            </div>
-                            {% endif %}
-
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">Costo de Envío:</span>
-                                <span>${{ envio }}</span>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                                <span class="h4 fw-bold">Total:</span>
-                                <span class="h3 fw-bold text-primary">${{ total_final }}</span>
-                            </div>
-                        </div>
-
-                        <a href="{% url 'cart_detail' %}" class="btn btn-outline-secondary w-100 mt-4">
-                            <i class="bi bi-arrow-left"></i> Modificar Carrito
-                        </a>
-
+                {% if not request.user.is_authenticated %}
+                    <!-- DATOS INVITADO -->
+                    <div class="card border-0 shadow-sm p-4 mb-4 bg-light">
+                        <h5 class="fw-bold mb-3">
+                            <i class="bi bi-person"></i> Datos del comprador
+                        </h5>
+                        <input type="text" name="nombre" class="form-control mb-3" placeholder="Nombre completo" required>
+                        <input type="email" name="email" class="form-control mb-3" placeholder="Correo electrónico" required>
+                        <input type="text" name="ciudad" class="form-control mb-3" placeholder="Ciudad / Comuna" required>
+                        <input type="text" name="direccion" class="form-control mb-3" placeholder="Dirección" required>
                     </div>
-                </div>
-            </div>
+                {% endif %}
+
+                <!-- <div id="direccion-box">
+                    <h4>Método de entrega</h4>
+                    <label>
+                    <input type="radio" name="tipo_envio" value="despacho" checked>
+                    Despacho a domicilio ($3.990)
+                    </label><br>
+                    <label>
+                    <input type="radio" name="tipo_envio" value="retiro">
+                    Retiro en tienda (Gratis)
+                </label>
+                </div> -->
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow">
+                    PAGAR AHORA ${{ total_final }}
+                </button>
+
+                {% if not request.user.is_authenticated %}
+                    <p class="text-center small mt-2">
+                        ¿Tienes cuenta?
+                        <a href="{% url 'login' %}?next={% url 'checkout' %}">
+                            Inicia sesión
+                        </a>
+                        para usar tus datos guardados.
+                    </p>
+                {% endif %}
+            </form>
 
         </div>
+
+        <!-- ================= RESUMEN PEDIDO ================= -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">Resumen del Pedido</h4>
+
+                    <ul class="list-group list-group-flush mb-4">
+                        {% for item in cart %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                            <span class="small">{{ item.producto.nombre }} (x{{ item.cantidad }})</span>
+                            <span class="fw-bold">${{ item.total_precio }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Subtotal:</span>
+                            <span>${{ subtotal }}</span>
+                        </div>
+
+                        {% if descuento > 0 %}
+                        <div class="d-flex justify-content-between mb-2 text-success fw-bold">
+                            <span>Descuento:</span>
+                            <span>-${{ descuento }}</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Costo de Envío:</span>
+                            <span>${{ envio }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                            <span class="h4 fw-bold">Total:</span>
+                            <span class="h3 fw-bold text-primary">${{ total_final }}</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'cart_detail' %}" class="btn btn-outline-secondary w-100 mt-4">
+                        <i class="bi bi-arrow-left"></i> Modificar Carrito
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-    <script>
-    document.querySelectorAll('#envio-form input[name="envio"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            fetch("{% url 'seleccionar_envio' %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: "envio=" + radio.value
-            }).then(() => location.reload());
-        });
+</div>
+<script>
+document.querySelectorAll('#envio-form input[name="envio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        fetch("{% url 'seleccionar_envio' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "envio=" + radio.value
+        }).then(() => location.reload());
     });
-    </script>
+});
+</script>
 {% endblock %}
