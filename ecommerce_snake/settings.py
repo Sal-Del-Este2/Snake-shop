@@ -106,8 +106,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    # BASE_DIR / 'snake_shop', 'static',
-    os.path.join(BASE_DIR, 'snake_shop', 'static'),
+    BASE_DIR / 'snake_shop'/ 'static',
+    # os.path.join(BASE_DIR, 'snake_shop', 'static'),
 ]
 
 MEDIA_URL = '/media/'

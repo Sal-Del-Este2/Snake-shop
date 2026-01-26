@@ -1,17 +1,17 @@
 version: "3.9"
 
 services:
-  django:
-    build: .
-    container_name: django_app
-    expose:
-      - "8000"
-    env_file:
-      - .env
-    volumes:
-      - ./staticfiles:/app/staticfiles
-      - ./media:/app/media
-
+  # django:
+  #   build: .
+  #   container_name: django_app
+  #   expose:
+  #     - "8000"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./staticfiles:/app/staticfiles
+  #     - ./media:/app/media
+  
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -22,13 +22,21 @@ services:
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
     depends_on:
-      - django
+      - web
 
   web:
     build: .
-    ports: ["8000:8000"]
-    env_file: .env
-    depends_on: [db]
+    container_name: django_app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+    depends_on:
+      - db
 
   db:
     image: postgres:15
@@ -36,4 +44,5 @@ services:
       POSTGRES_DB: snake_shop
       POSTGRES_USER: snake_user
       POSTGRES_PASSWORD: master1234
-    volumes: ['./data:/var/lib/postgresql/data']
+    volumes:
+      - ./data:/var/lib/postgresql/data
