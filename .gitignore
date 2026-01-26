@@ -1,2 +1,26 @@
+# Base de datos
 db.sqlite3
+
+# Entorno virtual
+.venv/
+
+# Archivos de entorno
 .env
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+
+# Archivos estáticos generados
+/staticfiles/
+
+# Archivos de medios
+/media/
+
+# Logs y temporales
+*.log
+*.sqlite3-journal
+
+# Configs del editor
+.vscode/
+.DS_Store
