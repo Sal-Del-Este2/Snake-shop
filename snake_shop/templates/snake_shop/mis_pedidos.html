@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-<h1 class="section-title">Historial de Pedidos</h1>
 
 <div class="container mt-4">
+    <h1 class="section-title">Historial de Pedidos</h1>
     {% if pedidos %}
         <div class="orders-wrapper">
             {% for pedido in pedidos %}
@@ -50,7 +50,7 @@
     {% else %}
         <div class="empty-orders">
             <p>Aún no tienes pedidos registrados.</p>
-            <a href="{% url 'lista_productos' %}" class="btn-shop-now">Ir a la tienda</a>
+            <!-- <a href="{% url 'lista_productos' %}" class="btn-shop-now">Ir a la tienda</a> -->
         </div>
     {% endif %}
 </div>

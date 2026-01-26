@@ -1,0 +1,47 @@
+{% extends "snake_shop/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- <a href="{% url 'lista_productos' %}" class="btn-shop-now">Ir a la tienda</a> -->
+    <h2 class="section-title">Mis Solicitudes Técnicas</h2>
+
+    {% if tickets %}
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Asunto</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detalle_ticket' ticket.id %}"> {{ ticket.folio }} </a>
+                    </td>
+                    <!-- <td>{{ ticket.folio }}</td> -->
+                    <td>{{ ticket.asunto }}</td>
+                    <td>{{ ticket.get_tipo_solicitud_display }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if ticket.estado == 'abierto' %}bg-warning
+                            {% elif ticket.estado == 'en_proceso' %}bg-info
+                            {% elif ticket.estado == 'resuelto' %}bg-success
+                            {% else %}bg-secondary{% endif %}
+                        ">
+                            {{ ticket.get_estado_display }}
+                        </span>
+                    </td>
+                    <td>{{ ticket.creado|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes solicitudes técnicas registradas.</p>
+    {% endif %}
+</div>
+{% endblock %}

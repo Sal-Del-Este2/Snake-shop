@@ -36,6 +36,7 @@
                             <p class="card-text small text-secondary" style="min-height: 50px;">
                                 {{ ticket.descripcion|truncatechars:150 }}
                             </p>
+                            <a href="{% url 'detalle_ticket' ticket.id %}" class="btn btn-sm btn-outline-dark w-100"> Ver conversación </a>
 
                             {% if ticket.archivo %}
                                 <div class="mb-3">
@@ -44,7 +45,6 @@
                                     </a>
                                 </div>
                             {% endif %}
-
                             <hr>
 
                             <form action="{% url 'actualizar_ticket' ticket.id %}" method="post">

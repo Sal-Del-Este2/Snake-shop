@@ -46,4 +46,7 @@ urlpatterns = [
     # URL de la página de inicio
     path('', views.home, name='home'),
     path("seleccionar-envio/", views.seleccionar_envio, name="seleccionar_envio"),
+    path("seleccionar-envio/", views.seleccionar_envio, name="seleccionar_envio"),
+    path('mis-tickets/', views.mis_tickets_view, name='mis_tickets'),
+    path('ticket/<int:ticket_id>/', views.detalle_ticket, name='detalle_ticket'),
 ]

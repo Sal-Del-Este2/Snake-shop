@@ -13,10 +13,9 @@ load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-# SECRET_KEY = 'django-insecure-$5qh&e-oa^dg^=l+9&g*=jh0mff5$iw$7-fruj-xuv0#^yv=#e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #True
+DEBUG = True #False
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
 ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1',] # '.ngrok-free.app', '.ngrok-free.dev'
@@ -40,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'snake_shop',
-    "django_extensions",
+    'django_extensions',
     'widget_tweaks',
 ]
 
@@ -76,16 +75,6 @@ WSGI_APPLICATION = 'ecommerce_snake.wsgi.application'
 
 
 #Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'snake_shop',
-#         'USER': 'snake_user',
-#         'PASSWORD': 'master1234',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -141,9 +130,7 @@ FLOW_API_KEY = os.environ.get('FLOW_API_KEY')
 FLOW_SECRET_KEY = os.environ.get('FLOW_SECRET_KEY')
 FLOW_URL_BASE = os.environ.get('FLOW_URL_BASE', 'https://sandbox.flow.cl/api')
 
-# FLOW_API_KEY = '35CFE2F1-DA44-4677-8733-7BCAF99LAA82'
-# FLOW_SECRET_KEY = '8de921c26f9ee93be9eef433ee11ede6ed43a67d'
-# FLOW_URL_BASE = 'https://sandbox.flow.cl/api'
+
 
 #redireccionar al inicio swapués de finalizar el pago
 LOGIN_URL = 'login'

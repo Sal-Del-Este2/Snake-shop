@@ -22,7 +22,7 @@ from django.db.models import Sum, Count
 from django.http import JsonResponse
 
 # Modelos y Formularios del Proyecto
-from .models import Producto, Categoria, Perfil, Pedido, ItemPedido, Transaccion, TicketSoporte 
+from .models import Producto, Categoria, Perfil, Pedido, ItemPedido, TicketComentario, TicketComentarioAdjunto, Transaccion, TicketSoporte 
 from .forms import CartAddProductForm, PerfilForm, ProductoForm, ContactoTecnicoForm, UserUpdateForm
 from .cart import Cart
 
@@ -278,7 +278,9 @@ def obtener_totales_finales(request, cart):
 
     # Calcula montos exactos para evitar discrepancias con Flow.
     subtotal = cart.get_total_precio()
-    envio = 3990
+    tipo_envio = request.session.get("tipo_envio", "despacho")
+    envio = 3990 if tipo_envio == "despacho" else 0
+    # envio = 3990
     descuento = 0
     
     # Aplicar 15% de descuento solo si es usuario administrativo (staff)
@@ -329,7 +331,8 @@ def crear_pedido(request):
             messages.error(request, 'Debes completar los datos de envío.')
             return redirect('cart_detail')
 
-    tipo_envio = request.POST.get('tipo_envio', 'despacho')
+    # tipo_envio = request.POST.get('tipo_envio', 'despacho')
+    tipo_envio = request.session.get("tipo_envio", "despacho")
     if tipo_envio == 'retiro':
         costo_envio = 0
         direccion = None
@@ -415,92 +418,6 @@ def crear_pedido(request):
     except Exception as e:
         messages.error(request, f"Error al procesar el pago: {e}")
         return redirect('cart_detail')
-
-    # # 1. Validar que el perfil exista y tenga datos de envío
-    # try:
-    #     perfil = request.user.perfil
-    # except Perfil.DoesNotExist:
-    #     messages.warning(request, 'Debes completar tu perfil antes de comprar.')
-    #     return redirect('profile')
-    
-    # if not perfil.direccion or not perfil.comuna:
-    #     messages.warning(request, 'Completa tus datos de envío en el perfil antes de pagar.')
-    #     return redirect('profile')
-
-    # # 2. Validar Email para Flow (Failsafe)
-    # if not request.user.email:
-    #     messages.error(request, "Tu cuenta no tiene un email válido para procesar el pago.")
-    #     return redirect('profile')
-
-    # try:
-    #     with transaction.atomic():
-    #         # 1. LÓGICA DE CÁLCULO UNIFICADA
-    #         subtotal_productos = cart.get_total_precio()
-    #         costo_envio = 3990
-    #         monto_descuento = 0
-            
-    #         # 2. Descuento del 15% si es administrativo (staff)
-    #         if request.user.is_staff:
-    #             monto_descuento = int(subtotal_productos * 0.15)
-            
-    #         total_a_pagar = (subtotal_productos + costo_envio) - monto_descuento
-
-    #         # 3. Crear el Pedido con el TOTAL REAL
-    #         pedido = Pedido.objects.create(
-    #             usuario=request.user,
-    #             direccion=perfil.direccion,
-    #             ciudad=perfil.ciudad,
-    #             codigo_postal=perfil.codigo_postal,
-    #             total=total_a_pagar  # Guardamos el monto final con descuento y envío
-    #         )
-
-    #         # 4. Validar Stock y crear Items
-    #         for item in cart:
-    #             producto = item['producto']
-    #             if producto.stock < item['cantidad']:
-    #                 raise ValueError(f"Stock insuficiente para {producto.nombre}")
-
-    #             ItemPedido.objects.create(
-    #                 pedido=pedido,
-    #                 producto=producto,
-    #                 precio=item['precio'],
-    #                 cantidad=item['cantidad']
-    #             )
-    #             # Descontar stock
-    #             producto.stock -= item['cantidad']
-    #             producto.save()
-
-    #         # 5. Configurar Pasarela de Pago (Flow)
-    #         url_api = f"{settings.FLOW_URL_BASE}/payment/create"
-            
-    #         params = {
-    #             "apiKey": settings.FLOW_API_KEY,
-    #             "commerceOrder": str(pedido.id),
-    #             "subject": f"Compra Snake Shop - Pedido #{pedido.id}",
-    #             "currency": "CLP",
-    #             "amount": int(total_a_pagar), # Monto exacto enviado a Flow
-    #             "email": request.user.email,
-    #             "urlReturn": request.build_absolute_uri(reverse('order_complete', args=[pedido.id])),
-    #             "urlConfirmation": request.build_absolute_uri(reverse('confirmacion_flow')),
-    #         }
-            
-    #         # Firma y Petición
-    #         params["s"] = generar_firma_flow(params)
-    #         response = requests.post(url_api, data=params)
-    #         data = response.json()
-
-    #         if response.status_code == 200 and 'url' in data:
-    #             request.session['pedido_id'] = pedido.id
-    #             cart.clear() # Limpiamos el carrito solo si la redirección es exitosa
-    #             return redirect(f"{data['url']}?token={data['token']}")
-    #         else:
-    #             error_flow = data.get('message', 'Error desconocido en Flow')
-    #             raise Exception(f"Flow API Error: {error_flow}")
-
-    # except Exception as e:
-    #     # Si algo falla, el 'transaction.atomic' hace rollback (el stock no se descuenta)
-    #     messages.error(request, f"Error al procesar el pago: {e}")
-    #     return redirect('cart_detail')
 
 @csrf_exempt
 @require_POST
@@ -654,6 +571,7 @@ def actualizar_ticket(request, ticket_id):
     ticket = get_object_or_404(TicketSoporte, id=ticket_id)
     nuevo_estado = request.POST.get('estado')
     respuesta = request.POST.get('respuesta_vendedor')
+    
 
     if nuevo_estado:
         ticket.estado = nuevo_estado
@@ -705,3 +623,63 @@ def seleccionar_envio(request):
     request.session.modified = True
 
     return JsonResponse({"ok": True})
+
+@login_required
+def mis_tickets_view(request):
+    tickets = TicketSoporte.objects.filter(
+        usuario=request.user
+    ).order_by('-creado')
+
+    return render(request, 'snake_shop/mis_tickets.html', {
+        'tickets': tickets
+    })
+
+def consultar_ticket_invitado(request):
+    ticket = None
+
+    if request.method == 'POST':
+        folio = request.POST.get('folio')
+        email = request.POST.get('email')
+
+        ticket = TicketSoporte.objects.filter(
+            folio=folio,
+            email=email
+        ).first()
+
+    return render(request, 'snake_shop/consultar_ticket.html', {
+        'ticket': ticket
+    })
+
+@login_required
+def detalle_ticket(request, ticket_id):
+    ticket = get_object_or_404(TicketSoporte, id=ticket_id)
+
+    # Seguridad: cliente solo ve su ticket
+    if not request.user.is_staff and ticket.usuario != request.user:
+        return redirect('home')
+
+    if request.method == 'POST':
+        mensaje = request.POST.get('mensaje')
+        archivos = request.FILES.getlist('archivos') if request.FILES else []
+
+        if mensaje:
+            comentario = TicketComentario.objects.create(
+                ticket=ticket,
+                autor=request.user,
+                mensaje=mensaje,
+                es_staff=request.user.is_staff
+            )
+
+            for archivo in archivos:
+                TicketComentarioAdjunto.objects.create(
+                    comentario=comentario,
+                    archivo=archivo
+                )
+
+            messages.success(request, "Comentario enviado correctamente.")
+            return redirect('detalle_ticket', ticket_id=ticket.id)
+
+    return render(request, 'snake_shop/detalle_ticket.html', {
+        'ticket': ticket,
+        'comentarios': ticket.comentarios.all().order_by('creado')
+    })

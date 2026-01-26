@@ -291,3 +291,34 @@ class TicketAttachment(models.Model):
 
     def __str__(self):
         return f"Adjunto {self.id} - {self.ticket.folio}"
+
+class TicketComentario(models.Model):
+    ticket = models.ForeignKey(
+        TicketSoporte,
+        on_delete=models.CASCADE,
+        related_name='comentarios'
+    )
+    autor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    mensaje = models.TextField()
+    creado = models.DateTimeField(auto_now_add=True)
+    es_staff = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Comentario #{self.id} - {self.ticket.folio}"
+
+class TicketComentarioAdjunto(models.Model):
+    comentario = models.ForeignKey(
+        TicketComentario,
+        on_delete=models.CASCADE,
+        related_name='adjuntos'
+    )
+    archivo = models.FileField(
+        upload_to='soporte/comentarios/%Y/%m/%d/',
+        validators=[validar_archivo_soporte]
+    )
+    creado = models.DateTimeField(auto_now_add=True)

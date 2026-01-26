@@ -12,7 +12,7 @@
             {% csrf_token %}
 
             {% for error in form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">{{ error }}</div>
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
             {% endfor %}
 
             <div class="form-field">
@@ -33,21 +33,19 @@
             </div>
 
             <div class="form-field order-id-field"> <label for="{{ form.numero_pedido.id_for_label }}"
-                    class="form-label">Número de Pedido/Factura (Opcional)</label>
+                class="form-label">Número de Pedido/Factura (Opcional)</label>
                 {{ form.numero_pedido|add_class:"profile-input order-check-input"|attr:"placeholder:Ej: #12345" }}
-                <small class="helptext">{{ form.numero_pedido.help_text }}</small>
+                    <small class="helptext">{{ form.numero_pedido.help_text }}</small>
                 {% for error in form.numero_pedido.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-field">
                 <label for="{{ form.asunto.id_for_label }}" class="form-label">Asunto *</label>
-                {{ form.asunto|add_class:"profile-input"|attr:"placeholder:Ej: Problema de batería"|attr:"required:true"
-                }}
+                {{ form.asunto|add_class:"profile-input"|attr:"placeholder:Ej: Problema de batería"|attr:"required:true"}}
                 {% for error in form.asunto.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
             </div>
 
             <div class="form-field">
-                <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción Detallada del Problema
-                    *</label>
+                <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción Detallada del Problema *</label>
                 {{ form.descripcion|add_class:"profile-input"|attr:"rows:4"|attr:"required:true" }}
                 {% for error in form.descripcion.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
             </div>

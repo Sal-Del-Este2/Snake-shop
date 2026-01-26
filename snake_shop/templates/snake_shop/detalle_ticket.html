@@ -1,0 +1,45 @@
+{% extends "snake_shop/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Ticket #{{ ticket.folio }}</h3>
+    <p><strong>Estado:</strong> {{ ticket.get_estado_display }}</p>
+
+    <hr>
+
+    <div class="mb-4">
+        {% for c in comentarios %}
+            <div class="mb-3 p-3 rounded
+                {% if c.es_staff %}bg-light border-start border-4 border-primary
+                {% else %}bg-white border{% endif %}">
+                
+                <strong>
+                    {% if c.es_staff %}Soporte Snake Shop{% else %}Cliente{% endif %}
+                </strong>
+                <small class="text-muted">{{ c.creado|date:"d/m/Y H:i" }}</small>
+
+                <p class="mt-2">{{ c.mensaje }}</p>
+
+                {% for a in c.adjuntos.all %}
+                    <a href="{{ a.archivo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        Ver adjunto
+                    </a>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p class="text-muted">Sin comentarios aún.</p>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="mensaje" class="form-control mb-2" rows="4"
+            placeholder="Escribe tu mensaje..." required></textarea>
+
+        <input type="file" name="archivos" multiple class="form-control mb-3">
+
+        <button class="btn btn-dark">Enviar comentario</button>
+    </form>
+</div>
+{% endblock %}
