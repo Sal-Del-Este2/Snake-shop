@@ -1,0 +1,1132 @@
+[
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 3,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 3,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 3,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 3,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 2,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 2,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 2,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 2,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add categoria",
+    "content_type": 7,
+    "codename": "add_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change categoria",
+    "content_type": 7,
+    "codename": "change_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete categoria",
+    "content_type": 7,
+    "codename": "delete_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view categoria",
+    "content_type": 7,
+    "codename": "view_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add pedido",
+    "content_type": 10,
+    "codename": "add_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change pedido",
+    "content_type": 10,
+    "codename": "change_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete pedido",
+    "content_type": 10,
+    "codename": "delete_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view pedido",
+    "content_type": 10,
+    "codename": "view_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add perfil",
+    "content_type": 11,
+    "codename": "add_perfil"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change perfil",
+    "content_type": 11,
+    "codename": "change_perfil"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete perfil",
+    "content_type": 11,
+    "codename": "delete_perfil"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view perfil",
+    "content_type": 11,
+    "codename": "view_perfil"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add producto",
+    "content_type": 12,
+    "codename": "add_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change producto",
+    "content_type": 12,
+    "codename": "change_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete producto",
+    "content_type": 12,
+    "codename": "delete_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view producto",
+    "content_type": 12,
+    "codename": "view_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add item pedido",
+    "content_type": 9,
+    "codename": "add_itempedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change item pedido",
+    "content_type": 9,
+    "codename": "change_itempedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete item pedido",
+    "content_type": 9,
+    "codename": "delete_itempedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view item pedido",
+    "content_type": 9,
+    "codename": "view_itempedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add transaccion",
+    "content_type": 15,
+    "codename": "add_transaccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change transaccion",
+    "content_type": 15,
+    "codename": "change_transaccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete transaccion",
+    "content_type": 15,
+    "codename": "delete_transaccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view transaccion",
+    "content_type": 15,
+    "codename": "view_transaccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add Ticket de Soporte",
+    "content_type": 14,
+    "codename": "add_ticketsoporte"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change Ticket de Soporte",
+    "content_type": 14,
+    "codename": "change_ticketsoporte"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete Ticket de Soporte",
+    "content_type": 14,
+    "codename": "delete_ticketsoporte"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view Ticket de Soporte",
+    "content_type": 14,
+    "codename": "view_ticketsoporte"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add folio sequence",
+    "content_type": 8,
+    "codename": "add_foliosequence"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change folio sequence",
+    "content_type": 8,
+    "codename": "change_foliosequence"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete folio sequence",
+    "content_type": 8,
+    "codename": "delete_foliosequence"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view folio sequence",
+    "content_type": 8,
+    "codename": "view_foliosequence"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add ticket attachment",
+    "content_type": 13,
+    "codename": "add_ticketattachment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change ticket attachment",
+    "content_type": 13,
+    "codename": "change_ticketattachment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete ticket attachment",
+    "content_type": 13,
+    "codename": "delete_ticketattachment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view ticket attachment",
+    "content_type": 13,
+    "codename": "view_ticketattachment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add ticket comentario",
+    "content_type": 16,
+    "codename": "add_ticketcomentario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change ticket comentario",
+    "content_type": 16,
+    "codename": "change_ticketcomentario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete ticket comentario",
+    "content_type": 16,
+    "codename": "delete_ticketcomentario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view ticket comentario",
+    "content_type": 16,
+    "codename": "view_ticketcomentario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add ticket comentario adjunto",
+    "content_type": 17,
+    "codename": "add_ticketcomentarioadjunto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change ticket comentario adjunto",
+    "content_type": 17,
+    "codename": "change_ticketcomentarioadjunto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete ticket comentario adjunto",
+    "content_type": 17,
+    "codename": "delete_ticketcomentarioadjunto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view ticket comentario adjunto",
+    "content_type": 17,
+    "codename": "view_ticketcomentarioadjunto"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$pWQ9j9yRr9HVFLRWr972Vw$jIby/l2liHegLAUl5h7Ych5rzUJAu37sa9y6YwbvjPQ=",
+    "last_login": "2026-01-20T18:10:00.367Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-08-11T20:09:44.834Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$QIxq0PhDqqJyLCrBikgTCs$SSz3Cp5yIYftudKFdwbjjkzmSDYXHpt0yUK0xYxpGwg=",
+    "last_login": "2025-08-12T22:50:14.023Z",
+    "is_superuser": false,
+    "username": "s.bravo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-12T15:45:38.468Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$EQxF7dhIgWaZQXW23t5nwJ$zYe2NpvDvXsm/9YHY9QXxmB2N0HvN27XyNf1JrAFhiE=",
+    "last_login": "2025-08-28T20:49:46.160Z",
+    "is_superuser": false,
+    "username": "marce.stgos",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-28T19:02:57.750Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$4OpHsLfiN2W7P4CJj6JhlM$HVLhGHE8WHHz/A4cugZ3VgVSdwqZTKV+TIx0ePXibow=",
+    "last_login": "2025-08-30T03:42:48.077Z",
+    "is_superuser": false,
+    "username": "sergio.bravo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-29T16:24:28.641Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tPVZHRe3s7yxRIsU6dZawT$v3Ojq6mbMP+XT0aZ7udGWpMGPcx1pWBfOPlSqtq9BJM=",
+    "last_login": "2025-08-29T17:44:11.111Z",
+    "is_superuser": false,
+    "username": "doctor.amor",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-29T17:44:09.437Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$FY7hBJeS33lU8tbbJWI4NE$y2ZIWTQdbWLYLBaEBkIiqRG0AmIZPRalXa11jvTO+Jk=",
+    "last_login": "2025-08-29T23:54:13.338Z",
+    "is_superuser": false,
+    "username": "cata.bravo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-29T23:54:10.796Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$If4FySduoUxfD6Ml7ZB2D8$PgOENjQ9kwixTBx0FaejcQcHtz4HtCIZ/amzcbUDinI=",
+    "last_login": "2026-01-08T22:49:03.609Z",
+    "is_superuser": false,
+    "username": "Sergio",
+    "first_name": "",
+    "last_name": "",
+    "email": "Sergio3106@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-07T01:53:44Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Dx1cuieDfBO0m3pCz370Xe$05Q8hHlu8Iu+LidUjQUZYLIgstap+o6OUR69kZ2X5qg=",
+    "last_login": "2026-01-09T23:04:52.473Z",
+    "is_superuser": false,
+    "username": "marcela",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-09T23:04:50.482Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$OjOyESl1PMbA0AfUw3AGKi$qfh4gp1g1ES/mt+Q2xBei5JaeU46Na9KE/jE8h31LI8=",
+    "last_login": "2026-01-26T21:33:14.592Z",
+    "is_superuser": true,
+    "username": "admin2",
+    "first_name": "",
+    "last_name": "",
+    "email": "sergio3106@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-09T23:24:17.948Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$jfcRMQ0qUmSvEAC2e5wkSj$XM/4pSCHTpjaWpekfgKR6rrV3xXNTu/wVlwCqVOd4AQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "andres",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-11T18:04:42.080Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$IMksuaiBTt9QETpVMawXG0$kapnimF+leNK+7MgO8jwc+NAI440Ybtch7s0jP+dL9w=",
+    "last_login": "2026-01-11T18:39:00.742Z",
+    "is_superuser": false,
+    "username": "andres_40",
+    "first_name": "Andres",
+    "last_name": "Bravo",
+    "email": "Sergio3106@icloud.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-11T18:09:10.302Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 13,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Nrr6Rheayz3BjJGEzUIyat$SOYIPEpZIQDCorpQA6Uv4QdshITV74zUMmzy2DArYuo=",
+    "last_login": "2026-01-21T17:40:38.795Z",
+    "is_superuser": false,
+    "username": "salas.este",
+    "first_name": "esteban",
+    "last_name": "salas",
+    "email": "este.salas@duocuc.cl",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-21T17:40:36.858Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$JQXVRFSTjmz39Ze5HzmgFQ$pydwc+0gjHoPv/KQ7Cb/t+VASVBhPTlOkMwL9OHnuqw=",
+    "last_login": "2026-01-26T14:41:49.669Z",
+    "is_superuser": false,
+    "username": "esteban",
+    "first_name": "esteban",
+    "last_name": "salas",
+    "email": "este.salas@duocuc.cl",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T02:43:16.402Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 15,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$x4CNd7C4xWdrwsgKsz4Ytt$fmC3hUCWAMATgU/gvBWraHDAR+rPreEluxtQKrz1SnQ=",
+    "last_login": "2026-01-26T15:12:59.523Z",
+    "is_superuser": false,
+    "username": "usuarioprueba",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-26T15:12:58.637Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 16,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$WXzzZ7SEhuJpQlnkpY4cec$NngUy/BaEfj5E5ATFJI9qNYJfOUXG6GSdUlo/MjXU4I=",
+    "last_login": "2026-01-26T16:56:10.489Z",
+    "is_superuser": false,
+    "username": "usuario1",
+    "first_name": "prueba",
+    "last_name": "usuario",
+    "email": "este.salas@duocuc.cl",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-26T15:13:58.554Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "categoria"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "foliosequence"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "itempedido"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "pedido"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "perfil"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "producto"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "ticketattachment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "ticketsoporte"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "transaccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "ticketcomentario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "snake_shop",
+    "model": "ticketcomentarioadjunto"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-01-23T00:10:12.755Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "9",
+    "object_repr": "All In One Pc 30'' Intel Core I7-4790 16gb 512gb Ssd Win 11 Color Negro",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Precio promocion\", \"En promocion\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-01-23T01:42:46.501Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "14",
+    "object_repr": "Crucial 16GB DDR5 4800 SODIMM",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Precio promocion\", \"En promocion\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-01-23T01:42:46.502Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "18",
+    "object_repr": "Crucial Unidad SSD 500GB Sata3",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Precio promocion\", \"En promocion\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-01-23T02:22:33.847Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "9",
+    "object_repr": "All In One Pc 30'' Intel Core I7-4790 16gb 512gb Ssd Win 11 Color Negro",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-01-23T02:26:07.603Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "9",
+    "object_repr": "All In One Pc 30'' Intel Core I7-4790 16gb 512gb Ssd Win 11 Color Negro",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Precio promocion\", \"En promocion\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-01-23T02:26:07.606Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "7",
+    "object_repr": "PC Notebook HP Dragonfly G4 9Z7E7EC-",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Precio promocion\", \"En promocion\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-01-23T02:28:26.669Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "21",
+    "object_repr": "All In One Pc 30'' Intel Core I7-4790 16gb 512gb Ssd Win 11 Color gris",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-01-26T14:08:30.574Z",
+    "user": 10,
+    "content_type": 12,
+    "object_id": "21",
+    "object_repr": "All In One Pc 30'' Intel Core I7-4790 16gb 512gb Ssd Win 11 Color gris",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "53i9b2z9jxr931pipf7s01eqhlmg7m0g",
+  "fields": {
+    "session_data": ".eJxVjDsOwyAQBe9CHSG-S5Qyfc6AFhaCkwgkY1dW7h4juXDaNzNvYx7Xpfi1p9lPxG5MCnY5jwHjO9VB6IX12XhsdZmnwIfCD9r5o1H63A_376BgL6OWWYAVMqB1lAiJIkUjnVYOUrYmSMjmKvTuALhgNSoQWmWgDDaCYd8fEBs3xw:1vj7De:4nG9l-Oo5tyZXGFFkK525JYBQ3m1i-M37v8mf8oFW1U",
+    "expire_date": "2026-02-06T02:48:18.548Z"
+  }
+}
+]
