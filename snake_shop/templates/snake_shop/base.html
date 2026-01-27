@@ -33,6 +33,7 @@
 
                     {% if user.is_authenticated %}
                         {% if user.is_staff or user.perfil.is_seller %}
+                            <a href="{% url 'dashboard_admin' %}">crud</a>
                             <li class="dropdown mx-2">
                                 <a class="btn btn-warning btn-sm dropdown-toggle fw-bold text-dark px-3" href="#" role="button" id="sellerMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-gear-fill"></i> Administración Ventas
@@ -55,11 +56,6 @@
                         {% endif %}
 
                         <li class="ms-3"><a href="{% url 'profile' %}" title="Mi Perfil"><i class="bi bi-person-circle fs-5">{{ user.username }}</i></a></li>
-                        <!-- <li class="mx-2"><a href="{% url 'cart_detail' %}" class="position-relative cart-link">
-                            <i class="bi bi-cart3 fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
-                                {{ cart|length }}
-                            </span> -->
                         </li>
                         <li class="ms-3"><a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Salir</a></li>
                     {% else %}
@@ -69,7 +65,7 @@
                         <i class="bi bi-cart3 fs-5"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
                         {{ cart_count }} 
-                        <!-- {{ cart|length }} -->
+
                         </span></a>
                     </li>
                 </ul>

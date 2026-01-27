@@ -52,4 +52,3 @@ class ContactoTecnicoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Describa el problema, cuándo ocurrió y qué pasos tomó para intentar solucionarlo.'}),
             'numero_pedido': forms.TextInput(attrs={'placeholder': 'Opcional, pero necesario para garantías.'}),
         }
-        

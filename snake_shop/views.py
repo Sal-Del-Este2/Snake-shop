@@ -16,15 +16,20 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse
 from django.db import transaction
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models.functions import TruncDate, TruncMonth
 from django.db.models import Sum, Count
-from django.http import JsonResponse
+
 
 # Modelos y Formularios del Proyecto
 from .models import Producto, Categoria, Perfil, Pedido, ItemPedido, TicketComentario, TicketComentarioAdjunto, Transaccion, TicketSoporte 
 from .forms import CartAddProductForm, PerfilForm, ProductoForm, ContactoTecnicoForm, UserUpdateForm
 from .cart import Cart
+
+#login dashboard Crud 26/01/2025
+from django.contrib.auth.models import User, Group
+from django.forms import modelform_factory
+from .models import *  # Todos tus models
 
 # FUNCIONES DE UTILIDAD (FLOW API)
 def generar_firma_flow(params):
@@ -683,3 +688,89 @@ def detalle_ticket(request, ticket_id):
         'ticket': ticket,
         'comentarios': ticket.comentarios.all().order_by('creado')
     })
+
+#login dashboard Crud 26/01/2025
+def es_admin(user):
+    return user.is_staff or user.is_superuser
+
+@login_required
+@user_passes_test(es_admin)
+def dashboard_admin(request):
+    # Secciones para admin
+    context = {
+        'secciones': [
+            {'name': 'Usuarios', 'url': 'user', 'icon': 'bi-people', 'count': User.objects.count()},
+            {'name': 'Grupos', 'url': 'group', 'icon': 'bi-diagram-3', 'count': Group.objects.count()},
+            {'name': 'Categorías', 'url': 'categoria', 'icon': 'bi-tags', 'count': Categoria.objects.count()},
+            {'name': 'Productos', 'url': 'producto', 'icon': 'bi-box', 'count': Producto.objects.count()},
+            {'name': 'Pedidos', 'url': 'pedido', 'icon': 'bi-cart', 'count': Pedido.objects.count()},
+            {'name': 'Tickets', 'url': 'ticketsoporte', 'icon': 'bi-headset', 'count': TicketSoporte.objects.count()},
+            # Agrega más: perfil, transaccion, etc.
+        ],
+        'total_pedidos': Pedido.objects.count(),
+        'total_ventas': Pedido.objects.filter(pagado=True).aggregate(Sum('total'))['total__sum'] or 0,
+    }
+    return render(request, 'snakeshop/dashboard_admin.html', context)
+
+MODELS_MAP = {
+    'user': (User, ['username', 'email', 'first_name', 'last_name', 'is_staff']),
+    'group': (Group, ['name']),
+    'categoria': (Categoria, ['nombre']),
+    'producto': (Producto, ['nombre', 'precio', 'stock']),
+    'pedido': (Pedido, ['usuario', 'total', 'pagado']),
+    'ticketsoporte': (TicketSoporte, ['asunto', 'estado']),
+    # Agrega: 'perfil': (Perfil, [...]), etc.
+}
+
+@login_required
+@user_passes_test(es_admin)
+def crud_modelo(request, model_name):
+    model_class, fields = MODELS_MAP.get(model_name.lower(), (None, None))
+    if not model_class:
+        return redirect('dashboard_admin')
+    
+    objects = model_class.objects.all()[:50]  # Paginación simple
+    return render(request, 'snakeshop/crud_list.html', {
+        'model_name': model_name,
+        'objects': objects,
+        'fields': fields,
+    })
+
+@login_required
+@user_passes_test(es_admin)
+def crud_modelo_create(request, model_name):
+    model_class, fields = MODELS_MAP[model_name.lower()]
+    FormClass = modelform_factory(model_class, fields=fields)
+    if request.method == 'POST':
+        form = FormClass(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('crud_modelo', model_name=model_name)
+    else:
+        form = FormClass()
+    return render(request, 'snakeshop/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Crear'})
+
+@login_required
+@user_passes_test(es_admin)
+def crud_modelo_update(request, model_name, pk):
+    model_class, fields = MODELS_MAP[model_name.lower()]
+    obj = get_object_or_404(model_class, pk=pk)
+    FormClass = modelform_factory(model_class, fields=fields)
+    if request.method == 'POST':
+        form = FormClass(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('crud_modelo', model_name=model_name)
+    else:
+        form = FormClass(instance=obj)
+    return render(request, 'snakeshop/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Editar'})
+
+@login_required
+@user_passes_test(es_admin)
+def crud_modelo_delete(request, model_name, pk):
+    model_class, _ = MODELS_MAP[model_name.lower()]
+    obj = get_object_or_404(model_class, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('crud_modelo', model_name=model_name)
+    return render(request, 'snakeshop/confirm_delete.html', {'obj': obj, 'model_name': model_name})
