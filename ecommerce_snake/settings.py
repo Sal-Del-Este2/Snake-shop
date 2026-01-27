@@ -16,7 +16,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #False
+DEBUG = False #False
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',] #'snake-shop.fly.dev', 'tu-app.onrender.com', '.ngrok-free.app', '.ngrok-free.dev'
