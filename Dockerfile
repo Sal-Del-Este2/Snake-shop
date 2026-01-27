@@ -1,27 +1,30 @@
-# 1️ Imagen base ligera con Python
-FROM python:3.12-slim
+ARG PYTHON_VERSION=3.13-slim
 
-# 2️ Variables de entorno recomendadas
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+FROM python:${PYTHON_VERSION}
 
-# 3️ Directorio de trabajo dentro del contenedor
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# 4️ Dependencias del sistema necesarias para PostgreSQL
-RUN apt-get update \
-    && apt-get install -y gcc libpq-dev \
+# install psycopg2 dependencies.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 5️ Copiar requirements e instalar dependencias Python
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN mkdir -p /code
 
-# 6️ Copiar todo el proyecto
-COPY . .
+WORKDIR /code
 
-# 7️ Recolectar archivos estáticos
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
+
+ENV SECRET_KEY "UXM8ySVi6uy8XtfZQjwDwkZedFcWsHa5j1bhJTtjazbbp2mW7l"
 RUN python manage.py collectstatic --noinput
 
-# 8️ Comando de arranque (producción)
-CMD ["gunicorn", "ecommerce_snake.wsgi:application", "--bind", "0.0.0.0:8000"]
+EXPOSE 8000
+
+CMD ["gunicorn","--bind",":8000","--workers","2","ecommerce_snake.wsgi"]

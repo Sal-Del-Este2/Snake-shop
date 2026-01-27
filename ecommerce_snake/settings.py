@@ -4,6 +4,7 @@ Django settings for ecommerce_snake project.
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,11 +19,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False #True #False
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
-ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1',] # '.ngrok-free.app', '.ngrok-free.dev'
+ALLOWED_HOSTS = ['snake-shop.fly.dev', 'localhost', '127.0.0.1',] #'tu-app.onrender.com', '.ngrok-free.app', '.ngrok-free.dev'
 
 # USAR COMODINES (*) para que funcione con cualquier túnel de ngrok activo
 CSRF_TRUSTED_ORIGINS = [
-    'https://tu-app.onrender.com',
+    # 'https://tu-app.onrender.com',
+    'https://snake-shop.fly.dev',
     # 'https://*.ngrok-free.app',
     # 'https://*.ngrok-free.dev',
     'http://127.0.0.1:8000',
@@ -84,14 +86,19 @@ WSGI_APPLICATION = 'ecommerce_snake.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'), # , '5432'
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': os.environ.get('DB_NAME'),
+    #     'USER': os.environ.get('DB_USER'),
+    #     'PASSWORD': os.environ.get('DB_PASSWORD'),
+    #     'HOST': os.environ.get('DB_HOST'),
+    #     'PORT': os.environ.get('DB_PORT'), # , '5432'
+    # },
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
 
 # Password validation
