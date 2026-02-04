@@ -1,6 +1,10 @@
 ﻿# snake_shop
 
-proyecto en Django
-usuario administrador
-admin2  master1234
-usuario1  3stebansp2026
+<h1>proyecto en Django</h1>
+
+<h3>usuario administrador</h3>
+
+<p>admin2  master1234</p>
+<p>usuario1  3stebansp2026</p>
+
+
