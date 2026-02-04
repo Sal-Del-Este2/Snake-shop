@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('snake_shop.urls')), 
+    path('', include('snake_shop.urls')),
 ]
 
 # Sirve archivos de medios (imágenes) solo en modo de desarrollo

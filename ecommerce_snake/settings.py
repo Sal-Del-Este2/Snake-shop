@@ -16,7 +16,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #False
+DEBUG = True #False #False
 
 # CONFIGURACIÓN DE HOSTS Y NGROK (AJUSTE DINÁMICO)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',] #'snake-shop.fly.dev', 'tu-app.onrender.com', '.ngrok-free.app', '.ngrok-free.dev'
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'ecommerce_snake.urls'
 
@@ -133,7 +133,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de Sesión y Carrito
 CART_SESSION_ID = 'cart'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'lista_productos'
+LOGOUT_REDIRECT_URL = 'login'
 
 # CONFIGURACIÓN DE EMAIL PARA DESARROLLO (Emails por consola)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

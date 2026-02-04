@@ -18,7 +18,7 @@ from django.urls import reverse
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.db.models.functions import TruncDate, TruncMonth
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q
 
 
 # Modelos y Formularios del Proyecto
@@ -60,6 +60,14 @@ def lista_productos(request, categoria_slug=None):
     # productos = Producto.objects.filter(disponible=True)
     productos = Producto.objects.filter(disponible=True).select_related('categoria')
 
+    # Para la busqueda
+    query = request.GET.get('q', '').strip()
+    if query:
+        productos = productos.filter(
+            Q(nombre__icontains=query) |
+            Q(descripcion__icontains=query)
+        )
+
     # 3 productos en promoción para carrusel
     productos_promocion = Producto.objects.filter(
         en_promocion=True, disponible=True
@@ -73,7 +81,8 @@ def lista_productos(request, categoria_slug=None):
         'categoria': categoria,
         'categorias': categorias,
         'productos': productos,
-        'productos_promocion': productos_promocion  # NUEVO
+        'productos_promocion': productos_promocion,  # NUEVO
+        'query': query,
     }
     return render(request, 'snake_shop/lista_productos.html', context)
 
@@ -611,9 +620,9 @@ def estadisticas_vendedor(request):
         'total_recaudado': total_recaudado,
         'ticket_promedio': ticket_promedio,
         'productos_top': productos_top,
-        'resumen_transacciones': resumen_transacciones, # Ahora sí está definido
-        'pedidos_pendientes': pedidos_pendientes,       # Ahora sí está definido
-        'total_pedidos': total_pedidos,               # Ahora sí está definido
+        'resumen_transacciones': resumen_transacciones,
+        'pedidos_pendientes': pedidos_pendientes,
+        'total_pedidos': total_pedidos,
     }
     return render(request, 'snake_shop/estadisticas.html', context)
 
@@ -698,79 +707,142 @@ def es_admin(user):
 def dashboard_admin(request):
     # Secciones para admin
     context = {
-        'secciones': [
+        'secciones_crud': [
+            {'name': 'Adm Prod Rapido', 'url': 'producto', 'icon': 'bi-box', 'count': Producto.objects.count()},
+            {'name': 'Categorías', 'url': 'categoria', 'icon': 'bi-tags', 'count': Categoria.objects.count()},
+            {'name': 'Pedidos', 'url': 'pedido', 'icon': 'bi-cart', 'count': Pedido.objects.count()},
             {'name': 'Usuarios', 'url': 'user', 'icon': 'bi-people', 'count': User.objects.count()},
             {'name': 'Grupos', 'url': 'group', 'icon': 'bi-diagram-3', 'count': Group.objects.count()},
-            {'name': 'Categorías', 'url': 'categoria', 'icon': 'bi-tags', 'count': Categoria.objects.count()},
-            {'name': 'Productos', 'url': 'producto', 'icon': 'bi-box', 'count': Producto.objects.count()},
-            {'name': 'Pedidos', 'url': 'pedido', 'icon': 'bi-cart', 'count': Pedido.objects.count()},
-            {'name': 'Tickets', 'url': 'ticketsoporte', 'icon': 'bi-headset', 'count': TicketSoporte.objects.count()},
-            # Agrega más: perfil, transaccion, etc.
         ],
+        # Operaciones / Ventas
+        'secciones_ventas': [
+            {'name': 'Estadísticas de Ventas', 'url': 'estadisticas_vendedor', 'icon': 'bi-graph-up-arrow', 'count': None},
+            {'name': 'Tickets de Soporte', 'url': 'gestion_tickets', 'icon': 'bi-headset', 'count': TicketSoporte.objects.count()},
+            {'name': 'Gestión de Pedidos', 'url': 'gestion_pedidos', 'icon': 'bi-cart-check', 'count': Pedido.objects.count()},
+        ],
+
         'total_pedidos': Pedido.objects.count(),
         'total_ventas': Pedido.objects.filter(pagado=True).aggregate(Sum('total'))['total__sum'] or 0,
     }
-    return render(request, 'snakeshop/dashboard_admin.html', context)
+    return render(request, 'snake_shop/dashboard_admin.html', context)
 
 MODELS_MAP = {
-    'user': (User, ['username', 'email', 'first_name', 'last_name', 'is_staff']),
-    'group': (Group, ['name']),
-    'categoria': (Categoria, ['nombre']),
-    'producto': (Producto, ['nombre', 'precio', 'stock']),
-    'pedido': (Pedido, ['usuario', 'total', 'pagado']),
-    'ticketsoporte': (TicketSoporte, ['asunto', 'estado']),
-    # Agrega: 'perfil': (Perfil, [...]), etc.
+    'user': {'model': User, 'fields': ['first_name', 'last_name','username', 'email', 'is_active', 'is_staff'], 'can_create': True, 'can_delete': False,}, # MUY IMPORTANTE
+    'group': {'model': Group, 'fields': ['name'], 'can_create': True, 'can_delete': False,},
+    'categoria': {'model': Categoria, 'fields': ['nombre'], 'can_create': True,},
+    'producto': {'model': Producto, 'fields': ['nombre', 'precio', 'stock'], 'can_create': False,},
+    'pedido': {'model': Pedido, 'fields': ['usuario', 'total', 'pagado'], 'can_create': False,},
+    # 'ticketsoporte': {TicketSoporte, ['asunto', 'estado'], 'can_create': False,},
+}
+
+FIELD_LABELS = {
+    'user': {
+        'first_name': 'Nombre',
+        'last_name': 'Apellido',
+        'username': 'Usuario',
+        'email': 'Email',
+        'is_active': 'Activo',
+        'is_staff': 'Administrador',
+    },
+    'categoria': {
+        'nombre': 'Nombre',
+    },
 }
 
 @login_required
 @user_passes_test(es_admin)
 def crud_modelo(request, model_name):
-    model_class, fields = MODELS_MAP.get(model_name.lower(), (None, None))
-    if not model_class:
+    model_data = MODELS_MAP.get(model_name.lower())
+
+    # model_class, fields = MODELS_MAP.get(model_name.lower(), (None, None))
+    if not model_data:
         return redirect('dashboard_admin')
     
-    objects = model_class.objects.all()[:50]  # Paginación simple
-    return render(request, 'snakeshop/crud_list.html', {
+    model_class= model_data['model']
+    fields = model_data['fields']
+    can_create = model_data.get('can_create', False)
+    can_delete = model_data.get('can_delete', False)
+
+    objects = model_class.objects.all().order_by('-id')[:50]  # Paginación simple
+    return render(request, 'snake_shop/crud/crud_list.html', {
         'model_name': model_name,
         'objects': objects,
         'fields': fields,
+        'can_create': can_create,
+        'can_delete': can_delete,
+        'field_labels': FIELD_LABELS.get(model_name.lower(), {}),
     })
 
 @login_required
 @user_passes_test(es_admin)
 def crud_modelo_create(request, model_name):
-    model_class, fields = MODELS_MAP[model_name.lower()]
+    model_data = MODELS_MAP.get(model_name.lower())
+    if not model_data:
+        return redirect('dashboard_admin')
+    
+    model_class = model_data['model']
+    fields = model_data['fields']
     FormClass = modelform_factory(model_class, fields=fields)
+    
+
+    FormClass = modelform_factory(model_class, fields=fields)
+
     if request.method == 'POST':
         form = FormClass(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Registro creado correctamente')
             return redirect('crud_modelo', model_name=model_name)
     else:
         form = FormClass()
-    return render(request, 'snakeshop/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Crear'})
+    return render(request, 'snake_shop/crud/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Crear'})
 
 @login_required
 @user_passes_test(es_admin)
 def crud_modelo_update(request, model_name, pk):
-    model_class, fields = MODELS_MAP[model_name.lower()]
+    model_data = MODELS_MAP.get(model_name.lower())
+
+    if not model_data:
+        return redirect('dashboard_admin')
+    
+    model_class = model_data['model']
+    fields = model_data['fields']
+    
     obj = get_object_or_404(model_class, pk=pk)
+
+    # evita, no modificar tu propio usuario
+    if model_name == 'user' and obj == request.user:
+        messages.error(request, "No puedes modificar tu propio usuario.")
+        return redirect('crud_modelo', model_name=model_name)
+
     FormClass = modelform_factory(model_class, fields=fields)
     if request.method == 'POST':
         form = FormClass(request.POST, instance=obj)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Registro actualizado correctamente')
             return redirect('crud_modelo', model_name=model_name)
     else:
         form = FormClass(instance=obj)
-    return render(request, 'snakeshop/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Editar'})
+    return render(request, 'snake_shop/crud/crud_form.html', {'form': form, 'model_name': model_name, 'action': 'Editar'})
 
 @login_required
 @user_passes_test(es_admin)
 def crud_modelo_delete(request, model_name, pk):
-    model_class, _ = MODELS_MAP[model_name.lower()]
+    model_data = MODELS_MAP.get(model_name.lower())
+    if not model_data:
+        return redirect('dashboard_admin')
+    
+    if not model_data.get('can_delete', False):
+        messages.error(request, "No está permitido eliminar este registro.")
+        return redirect('crud_modelo', model_name=model_name)
+    
+    model_class = model_data['model']
     obj = get_object_or_404(model_class, pk=pk)
+
     if request.method == 'POST':
         obj.delete()
+        messages.success(request, 'Registro eliminado correctamente')
         return redirect('crud_modelo', model_name=model_name)
-    return render(request, 'snakeshop/confirm_delete.html', {'obj': obj, 'model_name': model_name})
+    
+    return render(request, 'snake_shop/crud/confirm_delete.html', {'obj': obj, 'model_name': model_name})

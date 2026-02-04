@@ -1,0 +1,70 @@
+{% extends 'snake_shop/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <h2 class="mb-4">{{ model_name|title }}</h2>
+    <a href="/dashboard/" class="btn btn-secondary mb-3"> ← Volver </a>
+
+    {% if can_create %}
+        <a href="{% url 'crud_create' model_name=model_name %}" class="btn btn-primary mb-3">
+            Crear nuevo
+        </a>
+    {% endif %}
+
+    <table class="table table-striped shadow-sm">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field|capfirst }}</th>
+                {% endfor %}
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in objects %}
+            <tr>
+                {% for field in fields %}
+                    <td>
+                        {% if field == 'is_active' %}
+                            {% if obj.is_active %}
+                                <span class="badge bg-success fs-6">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger fs-6">Inactivo</span>
+                            {% endif %}
+                        {% elif field == 'is_staff' %}
+                            {% if obj.is_staff %}
+                                <span class="badge bg-primary fs-6">Administrador</span>
+                            {% else %}
+                                <span class="badge bg-secondary fs-6">Usuario</span>
+                            {% endif %}
+                        {% else %}
+                            {{ obj|attr:field }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                <td>
+                    <a href="{% url 'crud_update' model_name obj.id %}" class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+
+                    {% if can_delete %}
+                        <a href="{% url 'crud_delete' model_name=model_name pk=obj.pk %}" class="btn btn-danger btn-sm">
+                            Eliminar
+                        </a>
+                    {% endif %}
+
+                    {% if model_name == 'user' %}
+                        <a href="{% url 'password_reset' %}?email={{ obj.email }}" class="btn btn-warning btn-sm">
+                            Reset Password
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

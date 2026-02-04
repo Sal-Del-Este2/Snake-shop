@@ -32,32 +32,22 @@
                     <li><a href="{% url 'lista_productos' %}">Tienda</a></li>
 
                     {% if user.is_authenticated %}
-                        {% if user.is_staff or user.perfil.is_seller %}
-                            <a href="{% url 'dashboard_admin' %}">crud</a>
-                            <li class="dropdown mx-2">
-                                <a class="btn btn-warning btn-sm dropdown-toggle fw-bold text-dark px-3" href="#" role="button" id="sellerMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-gear-fill"></i> Administración Ventas
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="sellerMenu">
-                                    <li><h6 class="dropdown-header">Inventario y Ventas</h6></li>
-                                    <li><a class="dropdown-item" href="{% url 'gestion_pedidos' %}"><i class="bi bi-cart-check"></i> Gestión de Pedidos</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><h6 class="dropdown-header">Atención al Cliente</h6></li>
-                                    <li><a class="dropdown-item" href="{% url 'gestion_tickets' %}"><i class="bi bi-headset"></i> Tickets de Soporte</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><h6 class="dropdown-header">Análisis y Reportes</h6></li>
-                                    <li><a class="dropdown-item" href="{% url 'estadisticas_vendedor' %}"><i class="bi bi-graph-up-arrow"></i> Estadísticas de Ventas</a></li>
-                                </ul>
-                            </li>
+                        {% if user.is_staff %}
+                            <a href="{% url 'dashboard_admin' %}">Administración</a>
                         {% else %}
                             <li><a href="{% url 'mis_pedidos' %}">Mis Pedidos</a></li>
                             <li><a href="{% url 'mis_tickets' %}">Mis solicitudes</a></li>
                             <li class="ms-2"><a href="{% url 'contacto_tecnico' %}"><i class="bi bi-headset"></i> Soporte Técnico</a></li>
                         {% endif %}
 
-                        <li class="ms-3"><a href="{% url 'profile' %}" title="Mi Perfil"><i class="bi bi-person-circle fs-5">{{ user.username }}</i></a></li>
-                        </li>
-                        <li class="ms-3"><a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Salir</a></li>
+                        <a href="{% url 'profile' %}" title="Mi Perfil"><i class="bi bi-person-circle fs-5">{{ user.username }}</i></a>
+                        <!-- <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Salir</a> -->
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm">
+                                Salir
+                            </button>
+                        </form>
                     {% else %}
                         <li><a href="{% url 'login' %}">Ingresar</a></li>
                     {% endif %}

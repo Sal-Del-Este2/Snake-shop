@@ -10,7 +10,10 @@
                     Todas
                 </a>
                 {% for c in categorias %}
-                <a href="{% url 'lista_productos_por_categoria' c.slug %}" class="list-group-item list-group-item-action {% if categoria.slug == c.slug %}active{% endif %}">
+                <!-- <a href="{% url 'lista_productos_por_categoria' c.slug %}?q={{ query }}" class="list-group-item list-group-item-action {% if categoria and categoria.slug == c.slug %} active {% endif %}">
+                    {{ c.nombre }}git
+                </a> -->
+                <a href="{% url 'lista_productos_por_categoria' c.slug %}{% if query %}?q={{ query }}{% endif %}" class="list-group-item list-group-item-action {% if categoria and categoria.slug == c.slug %} active {% endif %}">
                     {{ c.nombre }}
                 </a>
                 {% endfor %}
@@ -19,7 +22,22 @@
     
 
         <div class="col-md-9">
+            {% if not productos %}
+                <div class="alert alert-warning">
+                    No se encontraron productos para "<strong>{{ query }}</strong>"
+                </div>
+            {% endif %}
+            <!-- titulo -->
             <h1 style="text-align: center">{% if categoria %}{{ categoria.nombre }}{% else %}Nuestros Productos{% endif %}</h1>
+            <form method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Buscar productos..." value="{{ query|default:'' }}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+            <!-- carrusell -->
             <div id="carouselPromociones" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
                 <div class="carousel-indicators">
                     {% for promo in productos_promocion %}
@@ -38,8 +56,6 @@
                             <div class="container">
                                 <div class="row justify-content-center">
                                     <div class="col-md-8">
-                                        <!-- <span class="badge bg-danger fs-5 mb-3 px-3 py-2">¡EN PROMOCIÓN!</span> -->
-                                        <!-- <h2 class="display-5 fw-bold mb-3">{{ promo.nombre }}</h2> -->
                                         <div class="mb-4 fs-1">
                                             {% if promo.precio_promocion %}
                                             <span class="text-decoration-line-through me-3 fs-4">${{ promo.precio }}</span>
@@ -67,6 +83,7 @@
                 </div>
             </div>
 
+            <!-- lista de productos -->
             <div class="product-list">
                 {% for producto in productos %}
                     <div class="product-card">

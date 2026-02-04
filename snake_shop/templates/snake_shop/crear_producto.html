@@ -2,14 +2,46 @@
 {% load widget_tweaks %}
 
 {% block content %}
+
 <div class="container my-5">
     <div class="row justify-content-center">
+        <h2 class="card-title text-center mb-4">Agregar Nuevo Producto</h2>
         <div class="col-md-8">
+            <a href="/dashboard/" class="btn btn-secondary mb-3"> ← Volver </a>
             <div class="card shadow p-4">
-                <h2 class="card-title text-center mb-4">Agregar Nuevo Producto</h2>
+                
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in form %}
+                        <div class="mb-3">
+                            {% if field.field.widget.input_type == "checkbox" %}
+                                <div class="form-check form-switch">
+                                    {{ field|add_class:"form-check-input" }}
+                                    <label for="{{ field.id_for_label }}" class="form-check-label">
+                                        {{ field.label }}
+                                    </label>
+                                </div>
+                            {% else %}
+                                {{ field.label_tag }}
+                                {{ field|add_class:"form-control" }}
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                            {% endif %}
+
+                            {% if field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in field.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endfor %}
+
+                    <!-- {% for field in form %}
                         <div class="form-group mb-3">
                             {{ field.label_tag }}
                             {{ field|add_class:"form-control" }}
@@ -24,7 +56,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                    {% endfor %}
+                    {% endfor %} -->
                     <button type="submit" class="btn btn-primary mt-3 w-100">Guardar Producto</button>
                 </form>
             </div>

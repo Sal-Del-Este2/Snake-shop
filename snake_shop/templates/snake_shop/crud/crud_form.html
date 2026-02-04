@@ -1,0 +1,19 @@
+{% extends 'snake_shop/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ action }} {{ model_name|title }}</h2>
+
+    <a href="{% url 'crud_modelo' model_name %}" class="btn btn-secondary mb-3">
+        ← Volver
+    </a>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success mt-3">
+            {{ action }}
+        </button>
+    </form>
+</div>
+{% endblock %}

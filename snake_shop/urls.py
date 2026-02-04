@@ -1,6 +1,6 @@
 # snake_shop/urls.py
 
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 urlpatterns = [
@@ -54,7 +54,9 @@ urlpatterns = [
     path('dashboard/', views.dashboard_admin, name='dashboard_admin'),
     path('dashboard/<str:model_name>/', views.crud_modelo, name='crud_modelo'),
     path('dashboard/<str:model_name>/create/', views.crud_modelo_create, name='crud_create'),
-    path('dashboard/<str:model_name>/<int:pk>/', views.crud_modelo_update, name='crud_update'),
+    path('dashboard/<str:model_name>/<int:pk>/update/', views.crud_modelo_update, name='crud_update'),
     path('dashboard/<str:model_name>/<int:pk>/delete/', views.crud_modelo_delete, name='crud_delete'),
+    path('accounts/', include('django.contrib.auth.urls')),
+
 
 ]
