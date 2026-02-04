@@ -1,0 +1,166 @@
+SNAKE-SHOP/
+├── .git/
+├── .venv/
+├── .vs/
+├── data/
+│   ├── ...
+├── ecommerce_snake/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── media/
+│   ├── productos/
+│   │   ├── 2025/
+│   │   │   ├── 08/
+│   │   │   │   ├── 29/
+│   │   │   │   │   └── all_in_one_pc_30.avif
+│   │   │   ├── 09/
+│   │   │   │   ├── 09/
+│   │   │   │   │   ├── D_NQ_NP_2X_606394-MLA86898557390_072025-F.webp
+│   │   │   │   │   ├── Memoria_ram_pc_Kingston_ddr2_800mhz_2gb.webp
+│   │   │   │   │   ├── s-l1600.webp
+│   │   │   │   │   ├── s-l1600_1.webp
+│   │   │   │   │   ├── s-l1600_2.webp
+│   │   │   │   │   ├── s-l1600_2_bBIXKcO.webp
+│   │   │   │   │   ├── s-l960.webp
+│   │   │   │   │   └── s-l960_1.webp
+│   │   ├── 2026
+│   │   │   ├── 01/
+│   │   │   │   ├── 04/
+│   │   │   │   │   ├── Memoria_RAM_DDR4_4GB_DIMM_3200MHz_Value_RAM.jpg
+│   │   │   │   │   ├── Memoria_RAM_DDR4_4GB_DIMM_3200MHz_Value_RAM_804ZpQq.jpg
+│   │   │   │   │   ├── Memoria_RAM_DDR4_8GB_3200MHz_Basics_Value.jpg
+│   │   │   │   │   ├── Memoria_RAM_Notebook_16GB_DDR5-4800_SODIMM.jpg
+│   │   │   │   │   ├── Memoria_RAM_Notebook_DDR4_16GB_3200MHz_SoDimm.jpg
+│   │   │   │   │   ├── Memoria_RAM_Notebook_DDR5_8GB_5600Mhz_SODIMM.jpg
+│   │   │   │   │   ├── Unidad_SSD_1TB.jpg
+│   │   │   │   │   ├── Unidad_SSD_240GB.jpg
+│   │   │   │   │   ├── Unidad_SSD_500GB.jpg
+│   │   │   │   │   └── Unidad_SSD_Externa_1TB.jpg
+│   ├── soporte/
+│   │   ├── archivos/
+│   │   │   ├── 2025/
+│   │   │   │   ├── 11/
+│   │   │   │   │   ├── 07/
+│   │   │   │   │   │   └── Captura_de_pantalla_2024-11-28_194222.png
+├── nginx/
+├── ├── default.conf
+├── productos/
+│   ├── 2025/
+│   │   ├── 08/
+│   │   │   ├── 29/
+│   │   │   │   ├── all in oce pc 30.avif
+│   │   │   │   ├── notebook-lenovo-81w100dxus-foto.jpg
+│   │   │   │   ├── portada.jpg
+│   │   │   │   └── s-l960.webp
+│   ├── Computador escritorio/
+│   ├── disco duro/
+│   │   ├── Unidad SSD 1TB.jpg
+│   │   ├── Unidad SSD 240GB.jpg
+│   │   ├── Unidad SSD 500GB.jpg
+│   │   └── Unidad SSD Externa 1TB.jpg
+│   ├── Memoria ram notebook/
+│   │   ├── Memoria RAM Notebook 16GB DDR5-4800 SODIMM.jpg
+│   │   ├── Memoria RAM Notebook DDR4 16GB 3200MHz SoDimm.jpg
+│   │   └── Memoria RAM Notebook DDR5 8GB 5600Mhz SODIMM.jpg
+│   ├── Memoria ram pc/
+│   │   ├── Memoria RAM DDR4 4GB DIMM 3200MHz Value RAM.jpg
+│   │   ├── Memoria RAM DDR4 8GB 3200MHz Basics Value.jpg
+│   │   └── Memoria RAM DDR4 8GB 3200MHz Value.jpg
+│   ├── Notebook/
+│   ├── Portada/
+│   │   └── portada.jpg
+├── snake_shop/
+│   ├── migrations/
+│   │   ├── __pycache__
+│   │   ├── __init__.py
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_perfil_pais_perfil_telefono.py
+│   │   ├── 0003_perfil_is_seller.py
+│   │   ├── 0004_producto_vendedor.py
+│   │   ├── 0005_pedido_estado_despacho.py
+│   │   ├── 0006_perfil_comuna_alter_perfil_direccion.py
+│   │   ├── 0007_alter_producto_imagen.py
+│   │   ├── 0008_alter_producto_imagen.py
+│   │   ├── 0009_remove_perfil_is_seller_alter_perfil_rol_and_more.py
+│   │   ├── 0010_ticketsoporte.py
+│   │   ├── 0011_pedido_email_perfil_email.py
+│   │   ├── 0012_pedido_descuento_pedido_envio_pedido_total.py
+│   │   ├── 0013_foliosequence_pedido_folio_transaccion_flow_order_and_more.py
+│   │   ├── 0014_alter_pedido_folio.py
+│   │   ├── 0015_agregar_promociones_producto.py
+│   │   ├── 0016_alter_pedido_usuario.py
+│   │   ├── 0017_pedido_costo_envio_alter_pedido_estado_despacho.py
+│   │   ├── 0018_alter_pedido_ciudad_alter_pedido_codigo_postal_and_more.py
+│   │   ├── 0019_alter_pedido_envio_alter_pedido_estado_despacho.py
+│   │   └── 0020_ticketcomentario_ticketcomentarioadjunto.py
+│   ├── static/
+│   │   ├── imagenes/
+│   │   │   ├── productos/
+│   │   │   │   ├── 2025/
+│   │   │   │   │   ├── 08/
+│   │   │   │   │   │   ├── 29/
+│   │   │   │   │   │   │   ├── D_NQ_NP_2X_606394-MLA86898557390_072025-F_CM5w0lC.webp
+│   │   │   │   │   │   │   ├── logo.jpg
+│   │   │   │   │   │   │   ├── Memoria ram pc Kingston ddr2 800mhz 2gb.webp
+│   │   │   │   │   │   │   ├── portada.2.jpg
+│   │   │   │   │   │   │   ├── portada.webp
+│   │   │   │   │   │   │   ├── s-l1600 (1).webp
+│   │   │   │   │   │   │   ├── s-l1600 (2).webp
+│   │   │   │   │   │   │   ├── s-l1600.webp
+│   │   │   │   │   │   │   ├── s-l1600_1.webp
+│   │   │   │   │   │   │   ├── s-l1600_2.webp
+│   │   │   │   │   │   │   ├── s-l1600_YiO0WB0.webp
+│   │   │   │   │   │   │   ├── s-l960 (1).webp
+│   │   │   │   │   │   │   ├── s-l960.webp
+│   │   │   │   │   │   │   └── s-l960_1.webp
+│   │   │   ├── notebook-lenovo-81w100dxus-foto.jpg
+│   │   │   └── s-l960.webp
+│   │   ├── js/
+│   │   │   ├── payment_formatting.js
+│   │   │   └── support_logic.js
+│   │   └── style.css
+│   ├── templates/
+│   │   ├── registration/
+│   │   ├── snake_shop/
+│   │   │   ├── base.html
+│   │   │   ├── cat_detail.html
+│   │   │   ├── checkout.html
+│   │   │   ├── contacto_tecnico.html
+│   │   │   ├── crear_producto.html
+│   │   │   ├── detalle_pedido.html
+│   │   │   ├── detalle_producto.html
+│   │   │   ├── detalle_ticket.html
+│   │   │   ├── estadísticas.html
+│   │   │   ├── gestion_pedidos.html
+│   │   │   ├── gestion_tickets.html
+│   │   │   ├── home.html
+│   │   │   ├── lista_productos.html
+│   │   │   ├── login.html
+│   │   │   ├── mis_pedidos.html
+│   │   │   ├── mis_tickets.html
+│   │   │   ├── order_complete.html
+│   │   │   ├── profile.html
+│   │   │   ├── register.html
+│   │   │   └── simulador_flow.html
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── cart.py
+│   ├── context_processors.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── staticfiles/
+├── .env
+├── .gitignore
+├── db.sqlite3
+├── docker-compoe.yml
+├── Dockefile
+├── manage.py
+├── readme.md
+├── requeriment.txt
